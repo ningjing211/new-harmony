@@ -87,66 +87,18 @@ let detailsImage = [
         "name": "Votre manque de foi\n me consterne"
     },
     {
-        "url": "https://youtu.be/hM_8AlSqncI?si=rCiKcFYzltZEvf0P",
-        "name": "LA SOUFFRANCE MÈNE\n AU CÔTÉ OBSCUR"
+        "url": "https://youtu.be/_DqjfAEObas",
+        "name": "Hitachi Annual Party"
     },
     {
-        "url": "https://youtu.be/nmpwhNquLq4?si=s_51IlGXAydTfpej",
-        "name": "Lord Vader: A Star\n Wars Story"
+        "url": "https://www.youtube.com/watch?v=1b1LH6LNWHo",
+        "name": "Lexus Glamping"
     },
     {
-        "url": "https://youtu.be/q11Hp-vFr80",
-        "name": "Green Bay"
+        "url": "https://youtu.be/ydl2CPuA9Hw",
+        "name": "Unite with Tomorrowland"
     }
 ]
-
-
-// let detailsImage = [
-//     {
-//         url: "https://www.youtube.com/watch?v=0Hl-YaBiZP4",
-//         name: "Transformation Dark Vador\n - Anakin devient Dark Vador"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=example2",
-//         name: "Arrivée Dark Vador\n Étoile de la Mort"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=example3",
-//         name: "Darth Vader's rage"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=example4",
-//         name: "VADER EPISODE 1: SHARDS\n OF THE PAST"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=3vZsVKD8BQg",
-//         name: "Je suis ton père!"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=7Zp66FhjlPU",
-//         name: "Darth Vader Goes Shopping"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=68vPtAE3cZE",
-//         name: "Votre manque de foi\n me consterne"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=kocd_C2M9RU",
-//         name: "LA SOUFFRANCE MÈNE\n AU CÔTÉ OBSCUR"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=k21ONzrwVLY",
-//         name: "Lord Vader: A Star\n Wars Story"
-//     },
-//     {
-//         url: "https://www.youtube.com/watch?v=JucYYmeh_QY",
-//         name: 'Dark vador "Hommage"'
-//     }
-// ]
-
-//-------------------------------------------------------------------------------------------------------------------
-// Base
-//-------------------------------------------------------------------------------------------------------------------
 
 // Debug
 const debugObject = {}
@@ -183,7 +135,7 @@ window.addEventListener("resize", () => {
 
 // Raycaster
 const raycatser = new THREE.Raycaster()
-let currentIntersect = null
+let currentIntersect = null;
 
 // Mouse move
 let mouse = new THREE.Vector2()
@@ -290,17 +242,6 @@ const continueAnimation = () => {
 
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
-// const imagesLoad1 = textureLoader.load("/images/img1.jpg")
-// const imagesLoad2 = textureLoader.load("/images/img2.jpg")
-// const imagesLoad3 = textureLoader.load("/images/img3.jpg")
-// const imagesLoad4 = textureLoader.load("/images/img4.jpg")
-// const imagesLoad5 = textureLoader.load("/images/img5.jpg")
-// const imagesLoad6 = textureLoader.load("/images/img6.jpg")
-// const imagesLoad7 = textureLoader.load("/images/img7.jpg")
-// const imagesLoad8 = textureLoader.load("/images/img8.jpg")
-// const imagesLoad9 = textureLoader.load("/images/img9.jpg")
-// const imagesLoad10 = textureLoader.load("/images/img10.jpg")
-
 const imagesLoad1 = textureLoader.load("/photo/image-1.jpg")
 const imagesLoad2 = textureLoader.load("/photo/image-2.jpg")
 const imagesLoad3 = textureLoader.load("/photo/image-3.jpg")
@@ -308,9 +249,9 @@ const imagesLoad4 = textureLoader.load("/photo/image-4.jpg")
 const imagesLoad5 = textureLoader.load("/photo/image-5.jpg")
 const imagesLoad6 = textureLoader.load("/photo/image-6.jpg")
 const imagesLoad7 = textureLoader.load("/photo/image-7.jpg")
-const imagesLoad8 = textureLoader.load("/photo/image-8.jpg")
-const imagesLoad9 = textureLoader.load("/photo/image-9.jpg")
-const imagesLoad10 = textureLoader.load("/photo/greenbay.png")
+const imagesLoad8 = textureLoader.load("/barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
+const imagesLoad9 = textureLoader.load("/barry/Lexus Glamping/Lexus Glamping.jpg")
+const imagesLoad10 = textureLoader.load("/barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
 
 const images = [imagesLoad1, imagesLoad2, imagesLoad3, imagesLoad4, imagesLoad5, imagesLoad6, imagesLoad7, imagesLoad8, imagesLoad9, imagesLoad10]
 
@@ -497,6 +438,12 @@ for (let i = 0; i < 10; i++) {
     plane.position.z = - Math.sin(i) * Math.PI
     plane.lookAt(0, plane.position.y, 0)
     
+    // 設置 userData，儲存點擊後要用到的值
+    plane.userData = {
+        name: detailsImage[i].name,
+        url: detailsImage[i].url
+    };
+
     groupPlane.add(plane)
 
     // Text
@@ -509,6 +456,32 @@ for (let i = 0; i < 10; i++) {
         
     groupText.add(newText)
 }
+
+// 在你的初始化或主程式中，新增以下點擊事件處理邏輯：
+
+window.addEventListener("click", (event) => {
+    // 計算滑鼠在 WebGL 畫布中的位置
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // 設置 Raycaster
+    raycatser.setFromCamera(mouse, camera);
+
+    // 檢查是否有與 Raycaster 相交的物體
+    const intersects = raycatser.intersectObjects(groupPlane.children);
+
+    if (intersects.length > 0) {
+        const clickedObject = intersects[0].object;
+        
+        // 檢查 userData 是否存在，確保是指定的物體
+        if (clickedObject.userData && clickedObject.userData.name) {
+            const clickedValue = clickedObject.userData.name;
+            console.log(`Clicked on: ${clickedValue}`);
+            addCards(clickedValue);
+        }
+    }
+});
+
 
 //-------------------------------------------------------------------------------------------------------------------
 // Particules
@@ -649,80 +622,39 @@ function getVideoId(url) {
       : null;
 }
 
-function addCards() {
-    // Add the card HTML
-    const main = document.getElementById("player"); // Select the container using ID
-    const cardsHTML = `
+function addCards(eventName) {
+    console.log(eventName);
+
+    const main = document.getElementById("player");
+
+    // 檢查是否已有 .page-event 區域，如果有則先清除其內容
+    const existingPageEvent = main.querySelector(".page-event");
+    if (existingPageEvent) {
+        main.removeChild(existingPageEvent);  // 或者也可以用 existingPageEvent.innerHTML = '';
+    }
+    
+    let cardsHTML = `
         <div class="page-event">
             <div class="cover">
-                <div class="heading">植皆交易</div>
-                <div class="event-page__title"> Green Bay <a class="web-title" href="https://greenbay.tw/", target="blank">(前往網站)</a></div>
-                 <a id="image-01" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-01.jpg">
-                </a>
-                <a id="image-02" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-02.jpg">
-                </a>
-                <a id="image-03" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-03.jpg">
-                </a>
-                <a id="image-04" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-04.jpg">
-                </a>
-                <a id="image-05" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-05.jpg">
-                </a>
-                <a id="image-06" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-06.jpg">
-                </a>
-                <a id="image-07" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-07.jpg">
-                </a>
-                <a id="image-08" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-08.jpg">
-                </a>
-                <a id="image-09" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-09.jpg">
-                </a>
-                <a id="image-10" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-10.jpg">
-                </a>
-                <a id="image-11" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-11.jpg">
-                </a>
-                <a id="image-12" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-12.jpg">
-                </a>
-                <a id="image-13" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-13.jpg">
-                </a>
-                <a id="image-14" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-14.jpg">
-                </a>
-                <a id="image-15" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-15.jpg">
-                </a>
-                <a id="image-16" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-16.jpg">
-                </a>
-                <a id="image-17" class="logo-image">
-                    <img src="/pdfs/green-bay-ppt-17.jpg">
-                </a>
-            </div>
-            </div>
-        <div class="container">
-            <div class="header-image"></div>
-        </div>
-
-        <ul class="event-page__nav">
-        <li><a href="#overview" title="Overview"><i class="fal fa-ellipsis-h-alt"></i></a></li>
-        <li><a href="#schedule" title="Schedule"><i class="fal fa-list"></i></a></li>
-        <li><a href="#venue" title="Venue"><i class="fal fa-map-marker-alt"></i></a></li>
-        <li><a href="#ticket" title="Get Ticket"><i class="fal fa-ticket-alt"></i></a></li>
-        </ul>
+                <div class="heading">${eventName}</div>
     `;
+
+    // 假設最多有 20 張圖片，依序嘗試載入
+    for (let i = 1; i <= 20; i++) {
+        cardsHTML += `
+            <a id="image-${eventName}-${i}" class="logo-image">
+                <img src="/Barry/${eventName}/${i}.jpg" onerror="this.parentElement.style.display='none'">
+            </a>
+        `;
+    }
+
+    cardsHTML += `
+            </div>
+        </div>
+    `;
+
     main.insertAdjacentHTML('beforeend', cardsHTML);
-    initializeElements();
+    initializeElements(eventName);
 
 
     // Add the dynamic CSS
@@ -797,6 +729,7 @@ window.addEventListener("click", (event) => {
     handlePlane()
     const clickedElement = event.target;
     const pageEventElement = document.querySelector('.page-event');
+    console.log(event.target);
 
     if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
         addCards()
@@ -865,6 +798,7 @@ const handlePlane = () => {
 }
 
 playerClose.addEventListener("click", () => {
+    event.stopPropagation();  // 防止點擊事件冒泡到 WebGL 場景
     playerSource.src = ""
     music.play()
     respiration.play()
@@ -984,34 +918,22 @@ init();
 let currentIndex = 0; // 將變量放在全局作用域
 let elements = []; // 初始化為空數組
 
-function initializeElements() {
+function initializeElements(eventName) {
     currentIndex = 0; // Reset the index
-    elements = [
-        document.getElementById("image-01"),
-        document.getElementById("image-02"),
-        document.getElementById("image-03"),
-        document.getElementById("image-04"),
-        document.getElementById("image-05"),
-        document.getElementById("image-06"),
-        document.getElementById("image-07"),
-        document.getElementById("image-08"),
-        document.getElementById("image-09"),
-        document.getElementById("image-10"),
-        document.getElementById("image-11"),
-        document.getElementById("image-12"),
-        document.getElementById("image-13"),
-        document.getElementById("image-14"),
-        document.getElementById("image-15"),
-        document.getElementById("image-16"),
-        document.getElementById("image-17")
-    ];
-    
-    // Optional: Check if elements are properly initialized
-    elements.forEach((el, index) => {
-        if (el === null) {
-            console.error(`Element at index ${index} is null. Please check if the ID is correct.`);
+    const elements = [];
+    for (let i = 1; i <= 20; i++) {
+        // 使用動態生成的 id 格式來選取元素
+        const element = document.getElementById(`image-${eventName}-${i}`);
+        if (element) {
+            elements.push(element);
+        } else {
+            break; // 若未找到更多元素，則停止
         }
-    });
+    }
+
+    // 確認抓取到的元素數量
+    // console.log("初始化元素數量:", elements.length);
+    // 在這裡可以進行接下來的初始化邏輯，例如將元素存入其他結構等
 }
 
 // Attach your keydown event listener
