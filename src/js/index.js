@@ -744,7 +744,7 @@ window.addEventListener("touchstart", (event) => {
     handlePlane(); // 手機上的觸碰事件處理，與 click 相同
     const clickedElement = event.target;
     const pageEventElement = document.querySelector('.page-event');
-        const clickedValue = clickedElement.getAttribute("data-value") || "default value"; // 或者從 userData 中取得值
+    const clickedValue = clickedObject.userData.name;
 
 
     if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
