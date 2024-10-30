@@ -666,10 +666,12 @@ function addCards(eventName) {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-        camera.position.x -= 1;
-        camera.position.y += 1;
+        // Adjust the camera field of view (FOV) for a more zoomed-out view
+        camera.fov = 75; // Increase the FOV for mobile (default is around 50-60)
+        camera.position.set(0, 1, 4); // Adjust position slightly if necessary
         camera.updateProjectionMatrix();
     }
+    
     
 
     if (isMobile) {
