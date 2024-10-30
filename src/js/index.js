@@ -366,7 +366,9 @@ const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.height, 0.1, 100)
 
 if (isMobile) {
-    camera.position.set(0, 1, 5); // Adjust the position further from the elements
+    camera.position.x = -0.5
+    camera.position.y = -0.5
+    camera.position.z = - 4
 } else {
     camera.position.x = 0
     camera.position.y = 0
