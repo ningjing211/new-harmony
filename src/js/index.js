@@ -68,23 +68,23 @@ let detailsImage = [
     },
     {
         "url": "https://youtu.be/sD8jLq42Td4?si=JkcDyvUkNCUJN3jS",
-        "name": "Darth Vader's rage"
+        "name": "Hitachi Solar Energy"
     },
     {
         "url": "https://youtu.be/5_l7ACxmziE?si=5uTDIi1jOk9WJLFS",
-        "name": "VADER EPISODE 1: SHARDS\n OF THE PAST"
+        "name": "Toyota Motor Show"
     },
     {
         "url": "https://youtu.be/pfU0QORkRpY?si=2b-ru2Z3Omaq1Mcg",
-        "name": "Je suis ton père!"
+        "name": "Garena Gaming"
     },
     {
         "url": "https://youtu.be/q4xKvHANqjk?si=3syi7a4l1FPUwUsw",
-        "name": "Darth Vader Goes Shopping"
+        "name": "Racing Master"
     },
     {
-        "url": "https://youtu.be/BnEgnrUCXPY?si=wby66iWrkMQFYhue",
-        "name": "Votre manque de foi\n me consterne"
+        "url": "https://youtu.be/1VTDdRAL6cg",
+        "name": "Michelin PS4 Launch"
     },
     {
         "url": "https://youtu.be/_DqjfAEObas",
@@ -248,7 +248,7 @@ const imagesLoad3 = textureLoader.load("/photo/image-3.jpg")
 const imagesLoad4 = textureLoader.load("/photo/image-4.jpg")
 const imagesLoad5 = textureLoader.load("/photo/image-5.jpg")
 const imagesLoad6 = textureLoader.load("/photo/image-6.jpg")
-const imagesLoad7 = textureLoader.load("/photo/image-7.jpg")
+const imagesLoad7 = textureLoader.load("/barry/Michelin PS4 Launch/Michelin PS4 Launch.jpg")
 const imagesLoad8 = textureLoader.load("/barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
 const imagesLoad9 = textureLoader.load("/barry/Lexus Glamping/Lexus Glamping.jpg")
 const imagesLoad10 = textureLoader.load("/barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
@@ -640,7 +640,7 @@ function addCards(eventName) {
     `;
 
     // 假設最多有 20 張圖片，依序嘗試載入
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 30; i++) {
         cardsHTML += `
             <a id="image-${eventName}-${i}" class="logo-image">
                 <img src="/Barry/${eventName}/${i}.jpg" onerror="this.parentElement.style.display='none'">
@@ -921,7 +921,7 @@ let elements = []; // 初始化為空數組
 function initializeElements(eventName) {
     currentIndex = 0; // Reset the index
     const elements = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 30; i++) {
         // 使用動態生成的 id 格式來選取元素
         const element = document.getElementById(`image-${eventName}-${i}`);
         if (element) {
