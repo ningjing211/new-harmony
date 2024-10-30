@@ -158,6 +158,27 @@ main {
     }
 }
 
+#player {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-aspect-ratio: 3/4) { /* For taller screens */
+  #player {
+      transform: scale(0.8); /* Adjust scale as needed */
+  }
+}
+
+@media (min-aspect-ratio: 4/3) { /* For wider screens */
+  #player {
+      transform: scale(1);
+  }
+}
+
+
 
 footer {
     opacity: 0;
