@@ -368,7 +368,7 @@ const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.h
 if (isMobile) {
     camera.position.x = 1.2
     camera.position.y = 1.2
-    camera.position.z = -3
+    camera.position.z = -2
 } else {
     camera.position.x = 0
     camera.position.y = 0
