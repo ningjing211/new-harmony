@@ -668,6 +668,7 @@ function addCards(eventName) {
     if (isMobile) {
 
         scene.scale.set(0.8, 0.8, 0.8); // Scale down the entire scene to fit better on mobile
+        gltf.scene.position.x = initialPositionMeshX - 200
 
     }
     
