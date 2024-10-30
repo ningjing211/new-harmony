@@ -447,7 +447,7 @@ for (let i = 0; i < 10; i++) {
     const plane = new THREE.Mesh(planeGeometry, planesMaterial[i])
 
     if (isMobile) {
-        plane.position.y = i - 12
+        plane.position.y = i - 10
     } else {
         plane.position.y = i - 14.2
     }
