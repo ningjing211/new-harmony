@@ -729,10 +729,12 @@ window.addEventListener("click", (event) => {
     handlePlane()
     const clickedElement = event.target;
     const pageEventElement = document.querySelector('.page-event');
+    const clickedValue = clickedObject.userData.name;
+
     console.log(event.target);
 
     if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
-        addCards()
+        addCards(clickedValue)
     }
 
 })
@@ -742,9 +744,11 @@ window.addEventListener("touchstart", (event) => {
     handlePlane(); // 手機上的觸碰事件處理，與 click 相同
     const clickedElement = event.target;
     const pageEventElement = document.querySelector('.page-event');
+        const clickedValue = clickedElement.getAttribute("data-value") || "default value"; // 或者從 userData 中取得值
+
 
     if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
-        addCards();
+        addCards(clickedValue);
     }
 });
 
