@@ -117,38 +117,6 @@ if (ifIsMobile) {
     camera.updateProjectionMatrix(); // 更新相機的投影矩陣
 }
 
-function adjustForMobile() {
-    const isMobile = window.innerWidth <= 768;
-
-    if (isMobile) {
-        // 手機版的調整
-        groupPlane.children.forEach((object) => {
-            object.position.x -= 1;
-            object.scale.set(1.5, 1.5, 1.5);
-        });
-
-        camera.position.x -= 1;
-        camera.zoom = 1.2;
-        camera.updateProjectionMatrix();
-    } else {
-        // 桌機版調整（可選，或保持預設狀態）
-        groupPlane.children.forEach((object) => {
-            object.position.x = 0;
-            object.scale.set(1, 1, 1);
-        });
-
-        camera.position.x = 0;
-        camera.zoom = 1;
-        camera.updateProjectionMatrix();
-    }
-}
-
-// 初始載入時檢查
-adjustForMobile();
-
-// 監聽螢幕尺寸變更
-window.addEventListener("resize", adjustForMobile);
-
 
 
 // Debug
