@@ -102,22 +102,6 @@ let detailsImage = [
 
 // mobile hack
 
-const ifIsMobile = window.innerWidth <= 768;
-
-if (ifIsMobile) {
-    // 手機版的調整
-    groupPlane.children.forEach((object) => {
-        object.position.x -= 0.5; // 減少位移量
-        object.scale.set(1.2, 1.2, 1.2); // 減少放大倍率
-    });
-
-    // 相機的調整
-    camera.position.x -= 0.5; 
-    camera.zoom = 1.1; // 減小放大倍率
-    camera.updateProjectionMatrix(); // 更新相機的投影矩陣
-}
-
-
 // Debug
 const debugObject = {}
 
