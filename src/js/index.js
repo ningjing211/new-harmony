@@ -758,23 +758,20 @@ window.addEventListener("click", (event) => {
 
 })
 
-// 新增 touchstart 事件來支援手機點擊
-window.addEventListener("touchstart", (event) => {
-    // 防止觸控的默認行為
+window.addEventListener("touchend", (event) => {
     event.preventDefault();
-
-    // 創建一個新的 click 事件
+    const touch = event.changedTouches[0];
     const simulatedClickEvent = new MouseEvent("click", {
         bubbles: true,
         cancelable: true,
         view: window,
-        clientX: event.touches[0].clientX,
-        clientY: event.touches[0].clientY
+        clientX: touch.clientX,
+        clientY: touch.clientY
     });
 
-    // 將 click 事件派發到觸控點的目標元素
     event.target.dispatchEvent(simulatedClickEvent);
 });
+
 
 const handlePlane = () => {
     if (currentIntersect && videoLook === false && isLoading) {
