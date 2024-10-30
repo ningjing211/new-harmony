@@ -368,7 +368,7 @@ const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.h
 if (isMobile) {
     camera.position.x = 1.2
     camera.position.y = 1.2
-    camera.position.z = - 4
+    camera.position.z = - 3
 } else {
     camera.position.x = 0
     camera.position.y = 0
@@ -447,7 +447,7 @@ for (let i = 0; i < 10; i++) {
     const plane = new THREE.Mesh(planeGeometry, planesMaterial[i])
 
     if (isMobile) {
-        plane.position.y = i - 8
+        plane.position.y = i - 12
     } else {
         plane.position.y = i - 14.2
     }
