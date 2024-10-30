@@ -107,16 +107,15 @@ const ifIsMobile = window.innerWidth <= 768;
 if (ifIsMobile) {
     // 手機版的調整
     groupPlane.children.forEach((object) => {
-        object.position.x -= 1; // 將物體往左移動
-        object.scale.set(1.5, 1.5, 1.5); // 放大物體
+        object.position.x -= 0.5; // 減少位移量
+        object.scale.set(1.2, 1.2, 1.2); // 減少放大倍率
     });
 
     // 相機的調整
-    camera.position.x -= 1; // 相機往左移動
-    camera.zoom = 1.2; // 放大相機視角
+    camera.position.x -= 0.5; 
+    camera.zoom = 1.1; // 減小放大倍率
     camera.updateProjectionMatrix(); // 更新相機的投影矩陣
 }
-
 
 
 // Debug
@@ -758,20 +757,23 @@ window.addEventListener("click", (event) => {
 
 })
 
-window.addEventListener("touchend", (event) => {
+// 新增 touchstart 事件來支援手機點擊
+window.addEventListener("touchstart", (event) => {
+    // 防止觸控的默認行為
     event.preventDefault();
-    const touch = event.changedTouches[0];
+
+    // 創建一個新的 click 事件
     const simulatedClickEvent = new MouseEvent("click", {
         bubbles: true,
         cancelable: true,
         view: window,
-        clientX: touch.clientX,
-        clientY: touch.clientY
+        clientX: event.touches[0].clientX,
+        clientY: event.touches[0].clientY
     });
 
+    // 將 click 事件派發到觸控點的目標元素
     event.target.dispatchEvent(simulatedClickEvent);
 });
-
 
 const handlePlane = () => {
     if (currentIntersect && videoLook === false && isLoading) {
