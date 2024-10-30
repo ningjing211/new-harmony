@@ -356,15 +356,23 @@ gltfLoader.load(
 
 debugObject.envMapIntensity = 5
 
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 //-------------------------------------------------------------------------------------------------------------------
 // Camera aaa
 //-------------------------------------------------------------------------------------------------------------------
 
 // camera
 const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.height, 0.1, 100)
-camera.position.x = 0
-camera.position.y = 0
-camera.position.z = - 5
+
+if (isMobile) {
+    camera.position.set(0, 1, 5); // Adjust the position further from the elements
+} else {
+    camera.position.x = 0
+    camera.position.y = 0
+    camera.position.z = - 5
+}
+
 scene.add(camera)
 
 // background camera
@@ -663,15 +671,6 @@ function addCards(eventName) {
     const style = document.createElement('style');
     style.id = 'dynamic-style'; // Add an ID for later removal
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-
-        scene.scale.set(1.2, 1.2, 1.2); // Scale down the entire scene to fit better on mobile
-
-    }
-    
-    
 
     if (isMobile) {
         // Mobile-specific CSS without min-height
