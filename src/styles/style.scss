@@ -456,6 +456,10 @@ footer {
     align-items: center;
 }
 
+.logo-image:not(:first-child) {
+  padding-bottom: 124px;
+}
+
 .logo-image img {
     display: inline-flex;
 }

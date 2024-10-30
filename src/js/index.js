@@ -244,14 +244,14 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 
 const imagesLoad1 = textureLoader.load("/photo/image-1.jpg")
 const imagesLoad2 = textureLoader.load("/photo/image-2.jpg")
-const imagesLoad3 = textureLoader.load("/photo/image-3.jpg")
-const imagesLoad4 = textureLoader.load("/photo/image-4.jpg")
-const imagesLoad5 = textureLoader.load("/photo/image-5.jpg")
-const imagesLoad6 = textureLoader.load("/photo/image-6.jpg")
-const imagesLoad7 = textureLoader.load("/barry/Michelin PS4 Launch/Michelin PS4 Launch.jpg")
-const imagesLoad8 = textureLoader.load("/barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
-const imagesLoad9 = textureLoader.load("/barry/Lexus Glamping/Lexus Glamping.jpg")
-const imagesLoad10 = textureLoader.load("/barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
+const imagesLoad3 = textureLoader.load("/Barry/Hitachi Solar Energy/Hitachi Solar Energy.jpg")
+const imagesLoad4 = textureLoader.load("/Barry/Toyota Motor Show/Toyota Motor Show.jpg")
+const imagesLoad5 = textureLoader.load("/Barry/Garena Gaming/Garena Gaming.jpg")
+const imagesLoad6 = textureLoader.load("/Barry/Racing Master/Racing Master.jpg")
+const imagesLoad7 = textureLoader.load("/Barry/Michelin PS4 Launch/Michelin PS4 Launch.jpg")
+const imagesLoad8 = textureLoader.load("/Barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
+const imagesLoad9 = textureLoader.load("/Barry/Lexus Glamping/Lexus Glamping.jpg")
+const imagesLoad10 = textureLoader.load("/Barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
 
 const images = [imagesLoad1, imagesLoad2, imagesLoad3, imagesLoad4, imagesLoad5, imagesLoad6, imagesLoad7, imagesLoad8, imagesLoad9, imagesLoad10]
 
