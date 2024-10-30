@@ -666,6 +666,13 @@ function addCards(eventName) {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
+        camera.position.x -= 1;
+        camera.position.y += 1;
+        camera.updateProjectionMatrix();
+    }
+    
+
+    if (isMobile) {
         // Mobile-specific CSS without min-height
         style.innerHTML = `
             .player {
