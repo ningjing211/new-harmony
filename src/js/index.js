@@ -741,32 +741,20 @@ window.addEventListener("click", (event) => {
 
 // 新增 touchstart 事件來支援手機點擊
 window.addEventListener("touchstart", (event) => {
-    handlePlane(); // 處理特定邏輯
+    // 防止觸控的默認行為
+    event.preventDefault();
 
-    const pageEventElement = document.querySelector('.page-event');
-    if (!pageEventElement) {
-        // 取得滑鼠在 WebGL 畫布中的位置
-        const touch = event.touches[0];
-        mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    // 創建一個新的 click 事件
+    const simulatedClickEvent = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: event.touches[0].clientX,
+        clientY: event.touches[0].clientY
+    });
 
-        // 設置 Raycaster 以便檢測觸控的物體
-        raycaster.setFromCamera(mouse, camera);
-
-        // 檢查是否有與 Raycaster 相交的物體
-        const intersects = raycaster.intersectObjects(groupPlane.children);
-
-        if (intersects.length > 0) {
-            const clickedObject = intersects[0].object;
-
-            // 檢查 userData 是否存在，並取得 clickedValue
-            if (clickedObject.userData && clickedObject.userData.name) {
-                const clickedValue = clickedObject.userData.name;
-                console.log(`Clicked on: ${clickedValue}`);
-                addCards(clickedValue);
-            }
-        }
-    }
+    // 將 click 事件派發到觸控點的目標元素
+    event.target.dispatchEvent(simulatedClickEvent);
 });
 
 const handlePlane = () => {
