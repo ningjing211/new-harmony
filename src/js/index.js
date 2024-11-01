@@ -75,7 +75,7 @@ let detailsImage = [
         "name": "Toyota Motor Show"
     },
     {
-        "url": "https://youtu.be/pfU0QORkRpY?si=2b-ru2Z3Omaq1Mcg",
+        "url": "https://www.youtube.com/watch?v=HV_8IesAvQQ",
         "name": "Garena Gaming"
     },
     {
