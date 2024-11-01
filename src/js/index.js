@@ -102,6 +102,39 @@ let detailsImage = [
 
 // mobile hack
 
+function removeSwipeSections() {
+    // Add fade-out effect
+    topSwipeSection.classList.add("hidden");
+    bottomSwipeSection.classList.add("hidden");
+
+    // Wait for the transition to complete before removing from DOM
+    setTimeout(() => {
+        if (topSwipeSection.parentNode) {
+            topSwipeSection.parentNode.removeChild(topSwipeSection);
+        }
+        if (bottomSwipeSection.parentNode) {
+            bottomSwipeSection.parentNode.removeChild(bottomSwipeSection);
+        }
+    }, 500); // 500ms matches the CSS transition duration
+}
+
+
+function addSwipeSections() {
+    // Add to the DOM with the hidden class
+    topSwipeSection.classList.add("hidden");
+    bottomSwipeSection.classList.add("hidden");
+
+    document.body.appendChild(topSwipeSection);
+    document.body.appendChild(bottomSwipeSection);
+
+    // Trigger a reflow to ensure the class is applied, then remove the hidden class
+    requestAnimationFrame(() => {
+        topSwipeSection.classList.remove("hidden");
+        bottomSwipeSection.classList.remove("hidden");
+    });
+}
+
+
 // Create left swipe section overlay
 const topSwipeSection = document.createElement("div");
 topSwipeSection.classList.add("swipe-section");
@@ -711,6 +744,8 @@ function getVideoId(url) {
 function addCards(eventName) {
     console.log(eventName);
 
+    removeSwipeSections();
+
     const main = document.getElementById("player");
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
@@ -921,6 +956,7 @@ playerClose.addEventListener("click", () => {
 
     setTimeout(() => {
         videoLook = false
+        addSwipeSections();  // Re-add swipe sections after closing the player
     }, 500);
 
     setTimeout(() => {

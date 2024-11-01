@@ -696,3 +696,12 @@ p a {
 		transform: translateX(4vmin);
 	}
 }
+
+.swipe-section {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.swipe-section.hidden {
+  opacity: 0;
+}
