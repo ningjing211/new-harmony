@@ -123,7 +123,7 @@ bottomSwipeSection.style.right = "0";
 bottomSwipeSection.style.width = "100%"; // Right half of the screen
 bottomSwipeSection.style.height = "25%";
 bottomSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
-bottomSwipeSection.style.backgroundColor = "rgba(114, 206, 255, 0.2)"; // Transparent background
+bottomSwipeSection.style.backgroundColor = "rgba(115, 206, 255, 0.2)"; // Transparent background
 document.body.appendChild(bottomSwipeSection);
 
 let startX = 0;
