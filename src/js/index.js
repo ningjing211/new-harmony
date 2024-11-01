@@ -168,14 +168,8 @@ let scrollPos = window.scrollY;
         e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
     });
 
-  section.addEventListener("touchstart", (e) => {
-    e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
-    startX = e.touches[0].clientX; // Record the starting X position
-  });
-
   section.addEventListener("touchmove", (e) => {
 
-    e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
 
     const currentX = e.touches[0].clientX;
     const currentY = e.touches[0].clientY;
