@@ -143,7 +143,7 @@ topSwipeSection.style.top = "0";
 topSwipeSection.style.right = "0";
 topSwipeSection.style.width = "100%"; // Left half of the screen
 topSwipeSection.style.height = "30%";
-topSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
+topSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
 topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.15)"; // Transparent background
 document.body.appendChild(topSwipeSection);
 
@@ -155,7 +155,7 @@ bottomSwipeSection.style.bottom = "0";
 bottomSwipeSection.style.right = "0";
 bottomSwipeSection.style.width = "100%"; // Right half of the screen
 bottomSwipeSection.style.height = "25%";
-bottomSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
+bottomSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
 bottomSwipeSection.style.backgroundColor = "rgba(115, 206, 255, 0.2)"; // Transparent background
 document.body.appendChild(bottomSwipeSection);
 
