@@ -102,6 +102,68 @@ let detailsImage = [
 
 // mobile hack
 
+// Create left swipe section overlay
+const topSwipeSection = document.createElement("div");
+topSwipeSection.classList.add("swipe-section");
+topSwipeSection.style.position = "absolute";
+topSwipeSection.style.top = "0";
+topSwipeSection.style.right = "0";
+topSwipeSection.style.width = "100%%"; // Left half of the screen
+topSwipeSection.style.height = "33%";
+topSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
+topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.2)"; // Transparent background
+document.body.appendChild(topSwipeSection);
+
+// Create right swipe section overlay
+const bottomSwipeSection = document.createElement("div");
+bottomSwipeSection.classList.add("swipe-section");
+bottomSwipeSection.style.position = "absolute";
+bottomSwipeSection.style.bottom = "0";
+bottomSwipeSection.style.right = "0";
+bottomSwipeSection.style.width = "100%%"; // Right half of the screen
+bottomSwipeSection.style.height = "23%";
+bottomSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
+bottomSwipeSection.style.backgroundColor = "rgba(114, 206, 255, 0.2)"; // Transparent background
+document.body.appendChild(bottomSwipeSection);
+
+let startX = 0;
+let scrollPos = window.scrollY;
+
+[topSwipeSection, bottomSwipeSection].forEach(section => {
+  section.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX; // Record the starting X position
+  });
+
+  section.addEventListener("touchmove", (e) => {
+    const currentX = e.touches[0].clientX;
+    const deltaX = currentX - startX;
+
+    // Adjust the scroll position based on swipe direction
+    if (Math.abs(deltaX) > 10) { // Sensitivity threshold
+      window.scrollBy({
+        top: 0,
+        left: -deltaX * 2, // Adjust multiplier to control scroll speed
+        behavior: "smooth"
+      });
+      startX = currentX; // Update start position for smooth scrolling
+    }
+  });
+
+  section.addEventListener("touchend", () => {
+    // Update scroll position if necessary
+    scrollPos = window.scrollY;
+  });
+});
+
+window.addEventListener("resize", () => {
+    // Adjust size and position if needed
+    topSwipeSection.style.width = "50%";
+    topSwipeSection.style.height = "100%";
+    bottomSwipeSection.style.width = "50%";
+    bottomSwipeSection.style.height = "100%";
+  });
+  
+
 // Debug
 const debugObject = {}
 
