@@ -104,10 +104,14 @@ let detailsImage = [
 
 function removeSwipeSections() {
     // Add fade-out effect
+    topSwipeSection.classList.add("hidden");
     bottomSwipeSection.classList.add("hidden");
 
     // Wait for the transition to complete before removing from DOM
     setTimeout(() => {
+        if (topSwipeSection.parentNode) {
+            topSwipeSection.parentNode.removeChild(topSwipeSection);
+        }
         if (bottomSwipeSection.parentNode) {
             bottomSwipeSection.parentNode.removeChild(bottomSwipeSection);
         }
@@ -117,17 +121,31 @@ function removeSwipeSections() {
 
 function addSwipeSections() {
     // Add to the DOM with the hidden class
+    topSwipeSection.classList.add("hidden");
     bottomSwipeSection.classList.add("hidden");
+
+    document.body.appendChild(topSwipeSection);
     document.body.appendChild(bottomSwipeSection);
 
     // Trigger a reflow to ensure the class is applied, then remove the hidden class
     requestAnimationFrame(() => {
+        topSwipeSection.classList.remove("hidden");
         bottomSwipeSection.classList.remove("hidden");
     });
 }
 
 
-
+// Create left swipe section overlay
+const topSwipeSection = document.createElement("div");
+topSwipeSection.classList.add("swipe-section");
+topSwipeSection.style.position = "absolute";
+topSwipeSection.style.top = "0";
+topSwipeSection.style.right = "0";
+topSwipeSection.style.width = "100%"; // Left half of the screen
+topSwipeSection.style.height = "30%";
+topSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
+topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.15)"; // Transparent background
+document.body.appendChild(topSwipeSection);
 
 // Create right swipe section overlay
 const bottomSwipeSection = document.createElement("div");
@@ -138,13 +156,13 @@ bottomSwipeSection.style.right = "0";
 bottomSwipeSection.style.width = "100%"; // Right half of the screen
 bottomSwipeSection.style.height = "25%";
 bottomSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
-bottomSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.15)"; // Transparent background
+bottomSwipeSection.style.backgroundColor = "rgba(115, 206, 255, 0.2)"; // Transparent background
 document.body.appendChild(bottomSwipeSection);
 
 let startX = 0;
 let scrollPos = window.scrollY;
 
-[bottomSwipeSection].forEach(section => {
+[topSwipeSection, bottomSwipeSection].forEach(section => {
 
     section.addEventListener("click", (e) => {
         e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
@@ -184,6 +202,8 @@ let scrollPos = window.scrollY;
 
 window.addEventListener("resize", () => {
     // Adjust size and position if needed
+    topSwipeSection.style.width = "50%";
+    topSwipeSection.style.height = "100%";
     bottomSwipeSection.style.width = "50%";
     bottomSwipeSection.style.height = "100%";
   });
