@@ -104,14 +104,10 @@ let detailsImage = [
 
 function removeSwipeSections() {
     // Add fade-out effect
-    topSwipeSection.classList.add("hidden");
     bottomSwipeSection.classList.add("hidden");
 
     // Wait for the transition to complete before removing from DOM
     setTimeout(() => {
-        if (topSwipeSection.parentNode) {
-            topSwipeSection.parentNode.removeChild(topSwipeSection);
-        }
         if (bottomSwipeSection.parentNode) {
             bottomSwipeSection.parentNode.removeChild(bottomSwipeSection);
         }
@@ -121,31 +117,17 @@ function removeSwipeSections() {
 
 function addSwipeSections() {
     // Add to the DOM with the hidden class
-    topSwipeSection.classList.add("hidden");
     bottomSwipeSection.classList.add("hidden");
 
-    document.body.appendChild(topSwipeSection);
     document.body.appendChild(bottomSwipeSection);
 
     // Trigger a reflow to ensure the class is applied, then remove the hidden class
     requestAnimationFrame(() => {
-        topSwipeSection.classList.remove("hidden");
         bottomSwipeSection.classList.remove("hidden");
     });
 }
 
 
-// Create left swipe section overlay
-const topSwipeSection = document.createElement("div");
-topSwipeSection.classList.add("swipe-section");
-topSwipeSection.style.position = "absolute";
-topSwipeSection.style.top = "0";
-topSwipeSection.style.right = "0";
-topSwipeSection.style.width = "100%"; // Left half of the screen
-topSwipeSection.style.height = "30%";
-topSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
-topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.15)"; // Transparent background
-document.body.appendChild(topSwipeSection);
 
 // Create right swipe section overlay
 const bottomSwipeSection = document.createElement("div");
@@ -162,7 +144,7 @@ document.body.appendChild(bottomSwipeSection);
 let startX = 0;
 let scrollPos = window.scrollY;
 
-[topSwipeSection, bottomSwipeSection].forEach(section => {
+[bottomSwipeSection].forEach(section => {
 
     section.addEventListener("click", (e) => {
         e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
@@ -196,8 +178,6 @@ let scrollPos = window.scrollY;
 
 window.addEventListener("resize", () => {
     // Adjust size and position if needed
-    topSwipeSection.style.width = "50%";
-    topSwipeSection.style.height = "100%";
     bottomSwipeSection.style.width = "50%";
     bottomSwipeSection.style.height = "100%";
   });
@@ -960,12 +940,12 @@ playerClose.addEventListener("click", () => {
     setTimeout(() => {
         videoLook = false
         addSwipeSections();  // Re-add swipe sections after closing the player
-    }, 500);
+    }, 300);
 
     setTimeout(() => {
         removeCards(); // Now execute the remove after some delay
         console.log('執行囉');
-    }, 500);
+    }, 300);
     
 
 })
