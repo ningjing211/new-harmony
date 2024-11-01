@@ -697,19 +697,24 @@ p a {
 	}
 }
 
-.swipe-section {
-  opacity: 1;
-  transition: opacity 0.3s ease;
+
+@media (max-width: 575px) {
+  
+  .swipe-section {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .swipe-section.hidden {
+    opacity: 0;
+  }
+
+
+  .main-webgl {
+    position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
 }
 
-.swipe-section.hidden {
-  opacity: 0;
-}
-
-
-.main-webgl {
-  position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
 }

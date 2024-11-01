@@ -104,8 +104,6 @@ let detailsImage = [
 
 // mobile hack
 
-
-
 function removeSwipeSections() {
     // Add fade-out effect
     bottomSwipeSection.classList.add("hidden");
@@ -132,63 +130,63 @@ function addSwipeSections() {
 }
 
 
-if (isMobile) {
-// Create right swipe section overlay
-const bottomSwipeSection = document.createElement("div");
-bottomSwipeSection.classList.add("swipe-section");
-bottomSwipeSection.style.position = "absolute";
-bottomSwipeSection.style.bottom = "0";
-bottomSwipeSection.style.right = "0";
-bottomSwipeSection.style.width = "100%"; // Right half of the screen
-bottomSwipeSection.style.height = "25%";
-bottomSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
-bottomSwipeSection.style.backgroundColor = "rgba(115, 255, 70, 0.2)"; // Transparent background
-document.body.appendChild(bottomSwipeSection);
 
-let startX = 0;
-let scrollPos = window.scrollY;
+    // Create right swipe section overlay
+    const bottomSwipeSection = document.createElement("div");
+    bottomSwipeSection.classList.add("swipe-section");
+    bottomSwipeSection.style.position = "absolute";
+    bottomSwipeSection.style.bottom = "0";
+    bottomSwipeSection.style.right = "0";
+    bottomSwipeSection.style.width = "100%"; // Right half of the screen
+    bottomSwipeSection.style.height = "25%";
+    bottomSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
+    bottomSwipeSection.style.backgroundColor = "rgba(115, 255, 70, 0.2)"; // Transparent background
 
-[bottomSwipeSection].forEach(section => {
+if(isMobile) {
+    document.body.appendChild(bottomSwipeSection);
 
-    section.addEventListener("click", (e) => {
-        e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
-    });
+    let startX = 0;
+    let scrollPos = window.scrollY;
 
-  section.addEventListener("touchmove", (e) => {
+    [bottomSwipeSection].forEach(section => {
 
-
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-    const deltaX = currentX - startX;
-    const deltaY = currentY - startY;
-
-    // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        e.preventDefault(); // 阻止垂直滾動
-        window.scrollBy({
-            top: 0,
-            left: -deltaX * 2, // 調整此倍數控制滑動速度
-            behavior: "smooth"
+        section.addEventListener("click", (e) => {
+            e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
         });
-        startX = currentX; // 更新起始點位置
-    }
+
+    section.addEventListener("touchmove", (e) => {
+
+
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+
+        // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault(); // 阻止垂直滾動
+            window.scrollBy({
+                top: 0,
+                left: -deltaX * 2, // 調整此倍數控制滑動速度
+                behavior: "smooth"
+            });
+            startX = currentX; // 更新起始點位置
+        }
+        });
+
+    section.addEventListener("touchend", () => {
+        // Update scroll position if necessary
+        scrollPos = window.scrollY;
+    });
     });
 
-  section.addEventListener("touchend", () => {
-    // Update scroll position if necessary
-    scrollPos = window.scrollY;
-  });
-});
-
-window.addEventListener("resize", () => {
-    // Adjust size and position if needed
-    bottomSwipeSection.style.width = "50%";
-    bottomSwipeSection.style.height = "100%";
-  });
-  
-
+    window.addEventListener("resize", () => {
+        // Adjust size and position if needed
+        bottomSwipeSection.style.width = "50%";
+        bottomSwipeSection.style.height = "100%";
+    });
+    
 }
-
 // Debug
 const debugObject = {}
 
@@ -731,9 +729,9 @@ function getVideoId(url) {
 
 function addCards(eventName) {
     console.log(eventName);
-
-    removeSwipeSections();
-
+    if(isMobile) {
+        removeSwipeSections();
+    }
     const main = document.getElementById("player");
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
@@ -944,7 +942,9 @@ playerClose.addEventListener("click", () => {
 
     setTimeout(() => {
         videoLook = false
+        if(isMobile) {
         addSwipeSections();  // Re-add swipe sections after closing the player
+        }
     }, 300);
 
     setTimeout(() => {
