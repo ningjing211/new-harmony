@@ -109,9 +109,9 @@ topSwipeSection.style.position = "absolute";
 topSwipeSection.style.top = "0";
 topSwipeSection.style.right = "0";
 topSwipeSection.style.width = "100%"; // Left half of the screen
-topSwipeSection.style.height = "25%";
+topSwipeSection.style.height = "30%";
 topSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
-topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.2)"; // Transparent background
+topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.15)"; // Transparent background
 document.body.appendChild(topSwipeSection);
 
 // Create right swipe section overlay
@@ -136,18 +136,21 @@ let scrollPos = window.scrollY;
 
   section.addEventListener("touchmove", (e) => {
     const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
     const deltaX = currentX - startX;
+    const deltaY = currentY - startY;
 
-    // Adjust the scroll position based on swipe direction
-    if (Math.abs(deltaX) > 10) { // Sensitivity threshold
-      window.scrollBy({
-        top: 0,
-        left: -deltaX * 2, // Adjust multiplier to control scroll speed
-        behavior: "smooth"
-      });
-      startX = currentX; // Update start position for smooth scrolling
+    // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        e.preventDefault(); // 阻止垂直滾動
+        window.scrollBy({
+            top: 0,
+            left: -deltaX * 2, // 調整此倍數控制滑動速度
+            behavior: "smooth"
+        });
+        startX = currentX; // 更新起始點位置
     }
-  });
+    });
 
   section.addEventListener("touchend", () => {
     // Update scroll position if necessary
