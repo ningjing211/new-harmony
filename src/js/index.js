@@ -44,6 +44,8 @@ let lastPosition = {
 
 const localLinks = [].slice.call(document.querySelectorAll('a')).filter((a) => /^#.+/.test(a.getAttribute('href')));
 
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 localLinks.forEach((link) => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
@@ -102,6 +104,8 @@ let detailsImage = [
 
 // mobile hack
 
+if (isMobile) {
+
 function removeSwipeSections() {
     // Add fade-out effect
     bottomSwipeSection.classList.add("hidden");
@@ -138,7 +142,7 @@ bottomSwipeSection.style.right = "0";
 bottomSwipeSection.style.width = "100%"; // Right half of the screen
 bottomSwipeSection.style.height = "25%";
 bottomSwipeSection.style.zIndex = "100"; // Ensure it's above WebGL canvas
-bottomSwipeSection.style.backgroundColor = "rgba(115, 206, 255, 0.2)"; // Transparent background
+bottomSwipeSection.style.backgroundColor = "rgba(115, 255, 70, 0.2)"; // Transparent background
 document.body.appendChild(bottomSwipeSection);
 
 let startX = 0;
@@ -182,6 +186,8 @@ window.addEventListener("resize", () => {
     bottomSwipeSection.style.height = "100%";
   });
   
+
+}
 
 // Debug
 const debugObject = {}
@@ -437,7 +443,6 @@ gltfLoader.load(
 
 debugObject.envMapIntensity = 5
 
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 //-------------------------------------------------------------------------------------------------------------------
 // Camera aaa
