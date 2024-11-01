@@ -79,7 +79,7 @@ let detailsImage = [
         "name": "Garena Gaming"
     },
     {
-        "url": "https://youtu.be/q4xKvHANqjk?si=3syi7a4l1FPUwUsw",
+        "url": "https://youtu.be/5tS7JhY720Y",
         "name": "Racing Master"
     },
     {
