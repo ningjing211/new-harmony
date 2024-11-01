@@ -108,8 +108,8 @@ topSwipeSection.classList.add("swipe-section");
 topSwipeSection.style.position = "absolute";
 topSwipeSection.style.top = "0";
 topSwipeSection.style.right = "0";
-topSwipeSection.style.width = "100%%"; // Left half of the screen
-topSwipeSection.style.height = "33%";
+topSwipeSection.style.width = "100%"; // Left half of the screen
+topSwipeSection.style.height = "25%";
 topSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
 topSwipeSection.style.backgroundColor = "rgba(250, 255, 0, 0.2)"; // Transparent background
 document.body.appendChild(topSwipeSection);
@@ -120,8 +120,8 @@ bottomSwipeSection.classList.add("swipe-section");
 bottomSwipeSection.style.position = "absolute";
 bottomSwipeSection.style.bottom = "0";
 bottomSwipeSection.style.right = "0";
-bottomSwipeSection.style.width = "100%%"; // Right half of the screen
-bottomSwipeSection.style.height = "23%";
+bottomSwipeSection.style.width = "100%"; // Right half of the screen
+bottomSwipeSection.style.height = "25%";
 bottomSwipeSection.style.zIndex = "10"; // Ensure it's above WebGL canvas
 bottomSwipeSection.style.backgroundColor = "rgba(114, 206, 255, 0.2)"; // Transparent background
 document.body.appendChild(bottomSwipeSection);
