@@ -104,7 +104,7 @@ let detailsImage = [
 
 // mobile hack
 
-if (isMobile) {
+
 
 function removeSwipeSections() {
     // Add fade-out effect
@@ -132,7 +132,7 @@ function addSwipeSections() {
 }
 
 
-
+if (isMobile) {
 // Create right swipe section overlay
 const bottomSwipeSection = document.createElement("div");
 bottomSwipeSection.classList.add("swipe-section");
