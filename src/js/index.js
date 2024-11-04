@@ -134,6 +134,7 @@ function addSwipeSections() {
     // Create right swipe section overlay
     const bottomSwipeSection = document.createElement("div");
     bottomSwipeSection.classList.add("swipe-section");
+    bottomSwipeSection.classList.add("hidden");
     bottomSwipeSection.style.position = "absolute";
     bottomSwipeSection.style.bottom = "0";
     bottomSwipeSection.style.right = "0";
@@ -324,6 +325,17 @@ const continueAnimation = () => {
         groupPlane.visible = true
         groupText.visible = true
         isLoading = true
+    
+    const swipeSections = document.querySelectorAll('.swipe-section');
+    swipeSections.forEach(section => {
+        section.classList.remove("hidden"); // 顯示 swipe-section
+    });
+
+    const mainWebGL = document.querySelector('.main-webgl');
+    mainWebGL.classList.add("openList"); // 淡出 main-webgl
+
+
+
     }, 250);
 }
 

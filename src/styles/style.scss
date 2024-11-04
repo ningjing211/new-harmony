@@ -705,16 +705,22 @@ p a {
     transition: opacity 0.3s ease;
   }
 
-  .swipe-section.hidden {
-    opacity: 0;
+  .main-webgl {
+      
   }
 
+  .hidden {
+      opacity: 0;
+      visibility: hidden;
+  }
 
-  .main-webgl {
-    position: fixed;
+  .openList {
+      position: fixed;
       top: 0;
       left: 0;
       z-index: 1;
-}
+      opacity: 1;
+      transition: opacity 0.3s ease;
+  }
 
 }
