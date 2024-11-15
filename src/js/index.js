@@ -778,17 +778,15 @@ function addCards(eventName) {
     }
 
     cardsHTML += `
-            </div>
-        </div>
         <footer>
             <div class="footer-item">
-            <p>Contact us <p/>
+            Contact us
             </div>
             <div class="footer-item">
             <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
             </div>
             <div class="footer-item">
-            <p>禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.</p>
+            禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
             </div>
         </footer>
     `;
