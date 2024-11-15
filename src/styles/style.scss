@@ -191,14 +191,23 @@ main {
 
 
 footer {
-    opacity: 0;
-
+    // opacity: 1;
+    width: 100%;
+    text-align: center;
+    min-height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5ba29ef0;
     p {
-        position: absolute;
+        // position: absolute;
         bottom: 0;
         margin: 25px;
         color: #fff;
         z-index: 2;
+    }
+    a {
+      color: #83ffae;
     }
 }
 
@@ -315,7 +324,7 @@ footer {
 }
  .page-event {
 	 background-color: #212121;
-	 padding-bottom: 40px;
+	 padding-bottom: 0;
 	 font-family: "Varela Round", sans-serif;
    width: 70%;
 }
@@ -488,7 +497,7 @@ footer {
 }
 
 .logo-image:not(:first-child) {
-  padding-bottom: 124px;
+  padding-bottom: 64px;
 }
 
 .logo-image img {
@@ -515,7 +524,7 @@ p a {
     display: block;
     position: absolute;
     background: rgba($orange, .5);
-    bottom: 3px;
+    bottom: -5px;
     left: -3px;
     right: -3px;
     height: 5px;
@@ -723,4 +732,10 @@ p a {
       transition: opacity 0.3s ease;
   }
 
+}
+
+.image-description {
+    color: white;
+    text-align: left;
+    padding: 0 60px 60px 60px;
 }

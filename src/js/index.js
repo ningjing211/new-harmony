@@ -77,7 +77,7 @@ let detailsImage = [
         "name": "Toyota Motor Show"
     },
     {
-        "url": "https://www.youtube.com/watch?v=HV_8IesAvQQ",
+        "url": "https://youtu.be/HV_8IesAvQQ?si=GSPaFiXDYSpNO2f0",
         "name": "Garena Gaming"
     },
     {
@@ -93,7 +93,7 @@ let detailsImage = [
         "name": "Hitachi Annual Party"
     },
     {
-        "url": "https://www.youtube.com/watch?v=1b1LH6LNWHo",
+        "url": "https://youtu.be/1b1LH6LNWHo?si=suNdkl4VNVGnYBvZ",
         "name": "Lexus Glamping"
     },
     {
@@ -258,11 +258,11 @@ const loadingManager = new THREE.LoadingManager(
             })
 
             gsap.to(h1, 0.5, {
-                fontSize: 25,
+                fontSize: 22,
                 top: 10,
                 left: 10,
                 transform: "translate(0, 0)",
-                width: 150,
+                width: 200,
                 ease: Power1.easeIn
             })
 
@@ -751,6 +751,12 @@ function addCards(eventName) {
     if (existingPageEvent) {
         main.removeChild(existingPageEvent);  // 或者也可以用 existingPageEvent.innerHTML = '';
     }
+
+    // Check if a footer already exists and remove it to avoid duplication
+    const existingFooter = main.querySelector("footer");
+    if (existingFooter) {
+        existingFooter.remove();
+    }
     
     let cardsHTML = `
         <div class="page-event">
@@ -759,18 +765,34 @@ function addCards(eventName) {
     `;
 
     // 假設最多有 20 張圖片，依序嘗試載入
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 20; i++) {
         cardsHTML += `
             <a id="image-${eventName}-${i}" class="logo-image">
-                <img src="/Barry/${eventName}/${i}.jpg" onerror="this.parentElement.style.display='none'">
+                <img src="/Barry/${eventName}/${i}.jpg" 
+                     onerror="this.parentElement.style.display='none'; document.getElementById('${eventName}-${i}-des').style.display='none'">
             </a>
+            <div id="${eventName}-${i}-des" class="image-description">
+                從企劃擬定到創新執行，我們致力於找出最觸動人心的策略方式，並以最新穎、獨特的創意視野，滿足客戶多元化的需求，同時追求活動的最佳化效益。
+            </div>
         `;
     }
 
     cardsHTML += `
             </div>
         </div>
+        <footer>
+            <div class="footer-item">
+            <p>Contact us <p/>
+            </div>
+            <div class="footer-item">
+            <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
+            </div>
+            <div class="footer-item">
+            <p>禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.</p>
+            </div>
+        </footer>
     `;
+
 
     main.insertAdjacentHTML('beforeend', cardsHTML);
     initializeElements(eventName);
@@ -1051,7 +1073,7 @@ let elements = []; // 初始化為空數組
 function initializeElements(eventName) {
     currentIndex = 0; // Reset the index
     const elements = [];
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 20; i++) {
         // 使用動態生成的 id 格式來選取元素
         const element = document.getElementById(`image-${eventName}-${i}`);
         if (element) {
