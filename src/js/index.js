@@ -62,11 +62,11 @@ localLinks.forEach((link) => {
 let detailsImage = [
     {
         "url": "https://youtu.be/Yz6Ffc6ShCE?si=iVwHWQeESMZ5N2wR",
-        "name": "Transformation Dark Vador\n - Anakin devient Dark Vador"
+        "name": "DDD"
     },
     {
         "url": "https://youtu.be/_YrrE0VnTSA?si=V4Rh4HxtLHpEZ2Ps",
-        "name": "Arrivée Dark Vador\n Étoile de la Mort"
+        "name": "image-2"
     },
     {
         "url": "https://youtu.be/sD8jLq42Td4?si=JkcDyvUkNCUJN3jS",
@@ -339,20 +339,76 @@ const continueAnimation = () => {
     }, 250);
 }
 
-const textureLoader = new THREE.TextureLoader(loadingManager)
+// const textureLoader = new THREE.TextureLoader(loadingManager)
 
-const imagesLoad1 = textureLoader.load("/photo/image-1.jpg")
-const imagesLoad2 = textureLoader.load("/photo/image-2.jpg")
-const imagesLoad3 = textureLoader.load("/Barry/Hitachi Solar Energy/Hitachi Solar Energy.jpg")
-const imagesLoad4 = textureLoader.load("/Barry/Toyota Motor Show/Toyota Motor Show.jpg")
-const imagesLoad5 = textureLoader.load("/Barry/Garena Gaming/Garena Gaming.jpg")
-const imagesLoad6 = textureLoader.load("/Barry/Racing Master/Racing Master.jpg")
-const imagesLoad7 = textureLoader.load("/Barry/Michelin PS4 Launch/Michelin PS4 Launch.jpg")
-const imagesLoad8 = textureLoader.load("/Barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
-const imagesLoad9 = textureLoader.load("/Barry/Lexus Glamping/Lexus Glamping.jpg")
-const imagesLoad10 = textureLoader.load("/Barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
+// const textureLoader2 = new THREE.TextureLoader()
 
-const images = [imagesLoad1, imagesLoad2, imagesLoad3, imagesLoad4, imagesLoad5, imagesLoad6, imagesLoad7, imagesLoad8, imagesLoad9, imagesLoad10]
+
+// console.log('textureLoader', textureLoader)
+// console.log('textureLoader2', textureLoader2)
+
+
+
+// const imagesLoad1 = textureLoader.load("/photo/image-1.jpg")
+// const imagesLoad2 = textureLoader.load("/photo/image-2.jpg")
+// const imagesLoad3 = textureLoader.load("/Barry/Hitachi Solar Energy/Hitachi Solar Energy.jpg")
+// const imagesLoad4 = textureLoader.load("/Barry/Toyota Motor Show/Toyota Motor Show.jpg")
+// const imagesLoad5 = textureLoader.load("/Barry/Garena Gaming/Garena Gaming.jpg")
+// const imagesLoad6 = textureLoader.load("/Barry/Racing Master/Racing Master.jpg")
+// const imagesLoad7 = textureLoader.load("/Barry/Michelin PS4 Launch/Michelin PS4 Launch.jpg")
+// const imagesLoad8 = textureLoader.load("/Barry/Hitachi Annual Party/Hitachi Annual Party.jpg")
+// const imagesLoad9 = textureLoader.load("/Barry/Lexus Glamping/Lexus Glamping.jpg")
+// const imagesLoad10 = textureLoader.load("/Barry/Unite with Tomorrowland/Unite with Tomorrowland.jpg")
+
+// console.log('imagesLoad1', imagesLoad1);
+
+// const images = [imagesLoad1, imagesLoad2, imagesLoad3, imagesLoad4, imagesLoad5, imagesLoad6, imagesLoad7, imagesLoad8, imagesLoad9, imagesLoad10]
+
+// console.log('images', images);
+// console.log(images[0]);
+// images.forEach((image, index) => console.log(index, image));
+
+
+
+const textureLoader = new THREE.TextureLoader(loadingManager);
+
+
+async function loadImages() {
+    try {
+        // Fetch JSON file containing image paths
+        const response = await fetch('/api/images');
+        if (!response.ok) throw new Error('Failed to fetch imagesOrder.json');
+
+        const data = await response.json();
+        console.log("Fetched data:", data);
+
+        const loadedImages = [];
+
+        // 非同步處理完成後更新 loadedImages 陣列
+        data.forEach((group) => {
+            console.log('group.path', group.path);
+            loadedImages.push(textureLoader.load(group.path));
+        });
+
+        console.log("images-inside:", loadedImages); // 確保這裡是資料處理完成後
+        return loadedImages; // 回傳已完成的 images 陣列
+    } catch (error) {
+        console.error("Error loading images:", error);
+        return []; // 如果發生錯誤，回傳空陣列
+    }
+};
+
+
+
+const images = await loadImages();
+
+console.log('images-outside:', images); // 確保 images 包含正確的值
+
+
+
+
+
+
 
 const gltfLoader = new GLTFLoader(loadingManager)
 let models = []
@@ -577,6 +633,9 @@ for (let i = 0; i < 10; i++) {
 // 在你的初始化或主程式中，新增以下點擊事件處理邏輯：
 
 window.addEventListener("click", (event) => {
+
+    handlePlane()
+
     // 計算滑鼠在 WebGL 畫布中的位置
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -589,6 +648,7 @@ window.addEventListener("click", (event) => {
 
     if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
+        console.log('有沒有clickedObject2', clickedObject);
         
         // 檢查 userData 是否存在，確保是指定的物體
         if (clickedObject.userData && clickedObject.userData.name) {
@@ -739,44 +799,68 @@ function getVideoId(url) {
       : null;
 }
 
-function addCards(eventName) {
+async function addCards(eventName) {
     console.log(eventName);
-    if(isMobile) {
-        removeSwipeSections();
+
+    // 如果是手機，移除滑動區域
+    if (isMobile) {
+        await removeSwipeSections();
     }
+
     const main = document.getElementById("player");
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
     const existingPageEvent = main.querySelector(".page-event");
     if (existingPageEvent) {
-        main.removeChild(existingPageEvent);  // 或者也可以用 existingPageEvent.innerHTML = '';
+        main.removeChild(existingPageEvent);
     }
 
-    // Check if a footer already exists and remove it to avoid duplication
+    // 檢查是否已存在 footer，若存在則移除
     const existingFooter = main.querySelector("footer");
     if (existingFooter) {
         existingFooter.remove();
     }
-    
+
+    // 動態生成 HTML
     let cardsHTML = `
         <div class="page-event">
             <div class="cover">
                 <div class="heading">${eventName}</div>
     `;
 
-    // 假設最多有 20 張圖片，依序嘗試載入
-    for (let i = 1; i <= 20; i++) {
-        cardsHTML += `
-            <a id="image-${eventName}-${i}" class="logo-image">
-                <img src="/Barry/${eventName}/${i}.jpg" 
-                     onerror="this.parentElement.style.display='none'; document.getElementById('${eventName}-${i}-des').style.display='none'">
-            </a>
-            <div id="${eventName}-${i}-des" class="image-description">
-                從企劃擬定到創新執行，我們致力於找出最觸動人心的策略方式，並以最新穎、獨特的創意視野，滿足客戶多元化的需求，同時追求活動的最佳化效益。
-            </div>
-        `;
+    try {
+        // 從後端獲取 JSON 資料
+        const response = await fetch('/api/images');
+        if (!response.ok) throw new Error('Failed to fetch JSON data.');
+
+        const imagesData = await response.json();
+        console.log("前端接收到的 JSON 資料:", imagesData); // 印出從後端接收到的 JSON 資料
+
+        // 找到對應的活動資料
+        const eventData = imagesData.find(item => item.folderName === eventName);
+
+        if (!eventData) {
+            console.error(`Event "${eventName}" not found in JSON data.`);
+            return;
+        }
+        console.log("找到的活動資料:", eventData); // 印出找到的活動資料
+        // 遍歷 JSON 數據，生成對應的圖片和描述
+        eventData.additionalImages.forEach((img, index) => {
+            cardsHTML += `
+                <a id="image-${eventData.folderName}-${index}" class="logo-image">
+                    <img src="${img.path}" 
+                         onerror="this.parentElement.style.display='none'; document.getElementById('${eventData.folderName}-${index}-des').style.display='none'">
+                </a>
+                <div id="${eventData.folderName}-${index}-des" class="image-description">
+                    ${img["image-description"] || "No description available."}
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error("Error loading images data:", error);
     }
 
+    // 添加 Footer
     cardsHTML += `
         <footer>
             <div class="footer-item">
@@ -791,18 +875,16 @@ function addCards(eventName) {
         </footer>
     `;
 
-
+    cardsHTML += `</div>`;
     main.insertAdjacentHTML('beforeend', cardsHTML);
-    initializeElements(eventName);
 
+    await initializeElements(eventName); // 確保初始化完成
 
-    // Add the dynamic CSS
+    // 動態添加 CSS
     const style = document.createElement('style');
-    style.id = 'dynamic-style'; // Add an ID for later removal
-
+    style.id = 'dynamic-style';
 
     if (isMobile) {
-        // Mobile-specific CSS without min-height
         style.innerHTML = `
             .player {
                 overflow-y: scroll !important;
@@ -810,7 +892,6 @@ function addCards(eventName) {
                 flex-direction: column !important;
                 align-items: center !important;
             }
-    
             .player-source {
                 position: relative !important;
                 top: 80px !important;
@@ -821,7 +902,6 @@ function addCards(eventName) {
             }
         `;
     } else {
-        // Default CSS with min-height
         style.innerHTML = `
             .player {
                 overflow-y: scroll !important;
@@ -829,7 +909,6 @@ function addCards(eventName) {
                 flex-direction: column !important;
                 align-items: center !important;
             }
-    
             .player-source {
                 position: relative !important;
                 top: 80px !important;
@@ -840,7 +919,7 @@ function addCards(eventName) {
             }
         `;
     }
-    document.head.appendChild(style); // Append the CSS to the document
+    document.head.appendChild(style);
 }
 
 function removeCards() {
@@ -863,19 +942,21 @@ function removeCards() {
     }
 }
 
-window.addEventListener("click", (event) => {
-    handlePlane()
-    const clickedElement = event.target;
-    const pageEventElement = document.querySelector('.page-event');
-    const clickedValue = clickedObject.userData.name;
+// window.addEventListener("click", (event) => {
+//     handlePlane()
+//     const clickedElement = event.target;
+//     const pageEventElement = document.querySelector('.page-event');
+//     console.log('有沒有clickedObject1', clickedObject);
+//     const clickedValue = clickedObject.userData.name;
+//     console.log('clickedValue', clickedValue);
 
-    console.log(event.target);
+//     console.log(event.target);
 
-    if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
-        addCards(clickedValue)
-    }
+//     if (!clickedElement.classList.contains('started-btn') && !pageEventElement) {
+//         addCards(clickedValue)
+//     }
 
-})
+// })
 
 // 新增 touchstart 事件來支援手機點擊
 window.addEventListener("touchstart", (event) => {
@@ -1110,4 +1191,72 @@ window.addEventListener("keydown", (event) => {
         }
     }
 });
+
+// ---分隔線---
+
+// async function fetchImagesData(eventName) {
+//     try {
+//         const response = await fetch('/api/images'); // 向後端請求 JSON 資料
+//         if (!response.ok) throw new Error('Failed to fetch data');
+
+//         const imagesData = await response.json();
+//         const eventData = imagesData.find(item => item.folderName === eventName);
+//         console.log('eventData', eventdata);
+
+//         if (eventData) {
+//             renderCards(eventData); // 渲染圖片與描述
+//         } else {
+//             console.error(`Event ${eventName} not found in data.`);
+//         }
+//     } catch (error) {
+//         console.error('Error fetching images data:', error);
+//     }
+// }
+
+function renderCards(eventData) {
+    const main = document.getElementById("player");
+
+    // 檢查是否已有 .page-event 區域，如果有則先清除其內容
+    const existingPageEvent = main.querySelector(".page-event");
+    if (existingPageEvent) {
+        main.removeChild(existingPageEvent);
+    }
+
+    let cardsHTML = `
+        <div class="page-event">
+            <div class="cover">
+                <div class="heading">${eventData.title}</div>
+    `;
+
+    // 動態生成圖片與描述
+    eventData.additionalImages.forEach((img, index) => {
+        cardsHTML += `
+            <a id="image-${eventData.folderName}-${index}" class="logo-image">
+                <img src="${img.path}" 
+                     onerror="this.parentElement.style.display='none'; document.getElementById('${eventData.folderName}-${index}-des').style.display='none'">
+            </a>
+            <div id="${eventData.folderName}-${index}-des" class="image-description">
+                ${img["image-description"] || "No description available."}
+            </div>
+        `;
+    });
+
+    cardsHTML += `
+        <footer>
+            <div class="footer-item">Contact us</div>
+            <div class="footer-item">
+                <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
+            </div>
+            <div class="footer-item">
+                禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+            </div>
+        </footer>
+    `;
+
+    cardsHTML += `</div></div>`;
+    main.insertAdjacentHTML('beforeend', cardsHTML);
+}
+
+// 呼叫 fetchImagesData 並傳入 eventName
+// fetchImagesData("DDD"); // 根據需要替換 "DDD" 為其他活動名稱
 

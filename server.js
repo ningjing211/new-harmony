@@ -1,12 +1,13 @@
-
-
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 
 // Serve static assets from the "public" directory (for images, sounds, etc.)
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'src')));
+app.use('/upload', express.static(path.join(__dirname, 'upload')));
+
 
 // Serve static files from the "dist" directory (the built files from Parcel)
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -17,9 +18,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-// Handle other routes, if needed (serves the built index.html for all routes)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+// 提供 JSON 檔案資料的 API
+app.get('/api/images', (req, res) => {
+  const jsonFilePath = path.join(__dirname, 'imagesOrder.json');
+  fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error('Error reading JSON file:', err);
+          res.status(500).send('Error reading data');
+      } else {
+        console.log("後端讀取的 JSON 資料:", data); // 印出讀到的 JSON 資料
+        res.json(JSON.parse(data));
+      }
+  });
 });
 
 // Start the server
