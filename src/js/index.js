@@ -1,4 +1,4 @@
-console.log("index.js is working ");
+// console.log("index.js is working ");
 
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -59,48 +59,80 @@ localLinks.forEach((link) => {
   })
 })
 
-let detailsImage = [
-    {
-        "url": "https://youtu.be/Yz6Ffc6ShCE?si=iVwHWQeESMZ5N2wR",
-        "name": "DDD"
-    },
-    {
-        "url": "https://youtu.be/_YrrE0VnTSA?si=V4Rh4HxtLHpEZ2Ps",
-        "name": "image-2"
-    },
-    {
-        "url": "https://youtu.be/sD8jLq42Td4?si=JkcDyvUkNCUJN3jS",
-        "name": "Hitachi Solar Energy"
-    },
-    {
-        "url": "https://youtu.be/5_l7ACxmziE?si=5uTDIi1jOk9WJLFS",
-        "name": "Toyota Motor Show"
-    },
-    {
-        "url": "https://youtu.be/HV_8IesAvQQ?si=GSPaFiXDYSpNO2f0",
-        "name": "Garena Gaming"
-    },
-    {
-        "url": "https://youtu.be/5tS7JhY720Y",
-        "name": "Racing Master"
-    },
-    {
-        "url": "https://youtu.be/1VTDdRAL6cg",
-        "name": "Michelin PS4 Launch"
-    },
-    {
-        "url": "https://youtu.be/_DqjfAEObas",
-        "name": "Hitachi Annual Party"
-    },
-    {
-        "url": "https://youtu.be/1b1LH6LNWHo?si=suNdkl4VNVGnYBvZ",
-        "name": "Lexus Glamping"
-    },
-    {
-        "url": "https://youtu.be/ydl2CPuA9Hw",
-        "name": "Unite with Tomorrowland"
+async function loadDetailsImage() {
+    try {
+        // Fetch JSON file containing image paths
+        const response = await fetch('/api/images');
+        if (!response.ok) throw new Error('Failed to fetch imagesOrder.json');
+
+        const data = await response.json();
+        // console.log("Fetched JSON data for detailsImage:", data);
+
+        const loadedDetailsImage = data.map(group => ({
+            url: group.video?.url || 'URL not available', // 安全提取 video.url
+            name: group.folderName || 'Name not available' // 安全提取 folderName
+        }));
+
+        // console.log("images-inside:", loadedDetailsImage); // 確保這裡是資料處理完成後
+        return loadedDetailsImage; // 回傳已完成的 images 陣列
+    } catch (error) {
+        console.error("Error loading images:", error);
+        return []; // 如果發生錯誤，回傳空陣列
     }
-]
+};
+
+
+
+const detailsImage = await loadDetailsImage();
+
+// console.log('detailsImage-outside:', detailsImage); // 確保 images 包含正確的值
+
+
+// let xxDetailsImage = [
+//     {
+//         "url": "https://youtu.be/Yz6Ffc6ShCE?si=iVwHWQeESMZ5N2wR",
+//         "name": "DDD"
+//     },
+//     {
+//         "url": "https://youtu.be/_YrrE0VnTSA?si=V4Rh4HxtLHpEZ2Ps",
+//         "name": "image-2"
+//     },
+//     {
+//         "url": "https://youtu.be/sD8jLq42Td4?si=JkcDyvUkNCUJN3jS",
+//         "name": "Hitachi Solar Energy"
+//     },
+//     {
+//         "url": "https://youtu.be/5_l7ACxmziE?si=5uTDIi1jOk9WJLFS",
+//         "name": "Toyota Motor Show"
+//     },
+//     {
+//         "url": "https://youtu.be/HV_8IesAvQQ?si=GSPaFiXDYSpNO2f0",
+//         "name": "Garena Gaming"
+//     },
+//     {
+//         "url": "https://youtu.be/5tS7JhY720Y",
+//         "name": "Racing Master"
+//     },
+//     {
+//         "url": "https://youtu.be/1VTDdRAL6cg",
+//         "name": "Michelin PS4 Launch"
+//     },
+//     {
+//         "url": "https://youtu.be/_DqjfAEObas",
+//         "name": "Hitachi Annual Party"
+//     },
+//     {
+//         "url": "https://youtu.be/1b1LH6LNWHo?si=suNdkl4VNVGnYBvZ",
+//         "name": "Lexus Glamping"
+//     },
+//     {
+//         "url": "https://youtu.be/ydl2CPuA9Hw",
+//         "name": "Unite with Tomorrowland"
+//     }
+// ]
+
+// console.log('detailsImage-outside-2:', xxDetailsImage); // 確保 images 包含正確的值
+
 
 // mobile hack
 
@@ -237,7 +269,7 @@ window.addEventListener("mousemove", e => {
 
 const music = new Audio("/sounds/music-bg.mp3");
 
-music.volume = 0.1
+music.volume = 0.001
 
 const respiration = new Audio("/sounds/music-bg.mp3")
 respiration.volume = 0.01
@@ -380,17 +412,17 @@ async function loadImages() {
         if (!response.ok) throw new Error('Failed to fetch imagesOrder.json');
 
         const data = await response.json();
-        console.log("Fetched data:", data);
+        // console.log("Fetched data:", data);
 
         const loadedImages = [];
 
         // 非同步處理完成後更新 loadedImages 陣列
         data.forEach((group) => {
-            console.log('group.path', group.path);
+            // console.log('group.path', group.path);
             loadedImages.push(textureLoader.load(group.path));
         });
 
-        console.log("images-inside:", loadedImages); // 確保這裡是資料處理完成後
+        // console.log("images-inside:", loadedImages); // 確保這裡是資料處理完成後
         return loadedImages; // 回傳已完成的 images 陣列
     } catch (error) {
         console.error("Error loading images:", error);
@@ -402,7 +434,7 @@ async function loadImages() {
 
 const images = await loadImages();
 
-console.log('images-outside:', images); // 確保 images 包含正確的值
+// console.log('images-outside:', images); // 確保 images 包含正確的值
 
 
 
@@ -648,12 +680,12 @@ window.addEventListener("click", (event) => {
 
     if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
-        console.log('有沒有clickedObject2', clickedObject);
+        // console.log('有沒有clickedObject2', clickedObject);
         
         // 檢查 userData 是否存在，確保是指定的物體
         if (clickedObject.userData && clickedObject.userData.name) {
             const clickedValue = clickedObject.userData.name;
-            console.log(`Clicked on: ${clickedValue}`);
+            // console.log(`Clicked on: ${clickedValue}`);
             addCards(clickedValue);
         }
     }
@@ -760,13 +792,14 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
 
         // 更新模型位置
         models.forEach((model, index) => {
-            model.rotation.y = (initialRotationMeshY) - scrollI * 0.01355; // 更新旋轉
+            model.rotation.y = (initialRotationMeshY) - scrollI * 0.002355; // 更新旋轉
             if (index === 0) {
-                model.position.y = (initialPositionMeshY) - scrollI * (speed * 0.6); // 更新 Y 位置
+                model.position.y = (initialPositionMeshY) - scrollI * (speed * 0.07); // 更新 Y 位置
             } else if (index === 1) {
-                model.position.y = (initialPositionMeshY - 0) - scrollI * (speed * 0.6);
+                model.position.y = (initialPositionMeshY - 0) - scrollI * (speed * 0.07);
             }
-            model.position.z = - scrollI * (speed * 0.55); // 更新 Z 位置
+            
+            model.position.z = - scrollI * (speed * 0.065); // 更新 Z 位置
         });
 
         // 更新平面和文字位置
@@ -800,7 +833,7 @@ function getVideoId(url) {
 }
 
 async function addCards(eventName) {
-    console.log(eventName);
+    // console.log(eventName);
 
     // 如果是手機，移除滑動區域
     if (isMobile) {
@@ -834,7 +867,7 @@ async function addCards(eventName) {
         if (!response.ok) throw new Error('Failed to fetch JSON data.');
 
         const imagesData = await response.json();
-        console.log("前端接收到的 JSON 資料:", imagesData); // 印出從後端接收到的 JSON 資料
+        // console.log("前端接收到的 JSON 資料:", imagesData); // 印出從後端接收到的 JSON 資料
 
         // 找到對應的活動資料
         const eventData = imagesData.find(item => item.folderName === eventName);
@@ -843,7 +876,7 @@ async function addCards(eventName) {
             console.error(`Event "${eventName}" not found in JSON data.`);
             return;
         }
-        console.log("找到的活動資料:", eventData); // 印出找到的活動資料
+        // console.log("找到的活動資料:", eventData); // 印出找到的活動資料
         // 遍歷 JSON 數據，生成對應的圖片和描述
         eventData.additionalImages.forEach((img, index) => {
             cardsHTML += `
@@ -852,7 +885,7 @@ async function addCards(eventName) {
                          onerror="this.parentElement.style.display='none'; document.getElementById('${eventData.folderName}-${index}-des').style.display='none'">
                 </a>
                 <div id="${eventData.folderName}-${index}-des" class="image-description">
-                    ${img["image-description"] || "No description available."}
+                    ${img["imageDescription"] || "No description available."}
                 </div>
             `;
         });
@@ -923,11 +956,11 @@ async function addCards(eventName) {
 }
 
 function removeCards() {
-    console.log('Executing removeCards');
+    // console.log('Executing removeCards');
     const main = document.getElementById("player");
     const cardSections = main.querySelectorAll('.main-cards');
     
-    console.log(cardSections); // Ensure that cards are being selected
+    // console.log(cardSections); // Ensure that cards are being selected
 
     // Remove all card sections
     if (cardSections.length > 0) {
@@ -1062,7 +1095,7 @@ playerClose.addEventListener("click", () => {
 
     setTimeout(() => {
         removeCards(); // Now execute the remove after some delay
-        console.log('執行囉');
+        // console.log('執行囉');
     }, 300);
     
 
@@ -1188,6 +1221,12 @@ window.addEventListener("keydown", (event) => {
         const backButton = document.getElementById("btn-back-to-home");
         if (backButton) {
             backButton.click(); // 模擬點擊按鈕
+        }
+    } else if (event.key === "Escape") {
+        // 按下 Backspace 時，觸發點擊
+        const escBackButton = document.getElementById("btn-back-to-home");
+        if (escBackButton) {
+            escBackButton.click(); // 模擬點擊按鈕
         }
     }
 });
