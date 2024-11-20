@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 // 提供 JSON 檔案資料的 API
 app.get('/api/images', (req, res) => {
-  const jsonFilePath = path.join(__dirname, 'imagesOrder.json');
+  const jsonFilePath = path.join(__dirname, 'dist/imagesOrder.json');
   fs.readFile(jsonFilePath, 'utf8', (err, data) => {
       if (err) {
           console.error('Error reading JSON file:', err);
