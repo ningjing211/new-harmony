@@ -15,14 +15,12 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Serve the main HTML file from the "dist" directory (after build)
 app.get('/', (req, res) => {
-  console.log(path.join(__dirname, 'dist/index.html'));
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
 // 提供 JSON 檔案資料的 API
 app.get('/api/images', (req, res) => {
-  const jsonFilePath = path.join(__dirname, 'dist/imagesOrder.json');
-  console.log(jsonFilePath);
+  const jsonFilePath = path.join(__dirname, 'public/imagesOrder.json');
   fs.readFile(jsonFilePath, 'utf8', (err, data) => {
       if (err) {
           console.error('Error reading JSON file:', err);
