@@ -8,7 +8,6 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'src')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
 // Serve static files from the "dist" directory (the built files from Parcel)
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -19,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 // 提供 JSON 檔案資料的 API
-app.get('/api/images', (req, res) => {
+app.get('/api/images-order', (req, res) => {
   const jsonFilePath = path.join(__dirname, 'public/imagesOrder.json');
   console.log('Checking JSON file at:', jsonFilePath);
   console.log('File exists:', fs.existsSync(jsonFilePath));

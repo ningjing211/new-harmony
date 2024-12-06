@@ -151,58 +151,59 @@ function removeSwipeSections() {
 }
 
 
-function addSwipeSections() {
-    // Add to the DOM with the hidden class
-    bottomSwipeSection.classList.add("hidden");
-
-    document.body.appendChild(bottomSwipeSection);
+    async function addSwipeSections() {
+        // 移除之前的滑動區域（如果存在）
+        const existingSwipeSection = document.querySelector(".swipe-section");
+        if (existingSwipeSection) {
+            existingSwipeSection.remove();
+        }
     
+        // 動態生成滑動區域 HTML
+        let swipeSectionHTML = `
+            <div class="swipe-section hidden" style="
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 25%;
+                z-index: 100;
+                background-color: rgba(115, 255, 70, 0.2);
+            ">
+                <img 
+                    src="https://conflux-tech.com/wp-content/uploads/2024/12/Asset-6.png" 
+                    alt="Scroll Left-Right"
+                    style="
+                    width: 46px;
+                    height: auto;
+                    object-fit: contain;
+                    position: absolute;
+                    bottom: 90px;
+                    left: 0;
+                    right: 0;
+                    z-index: 3;
+                    margin: 0 auto;
+                ">
+            </div>
+        `;
+    
+        // 插入到 DOM 中
+        document.body.insertAdjacentHTML("beforeend", swipeSectionHTML);
+    
+        // 移除 hidden 類別以顯示區域
+        const newSwipeSection = document.querySelector(".swipe-section");
+        requestAnimationFrame(() => {
+            newSwipeSection.classList.remove("hidden");
 
-
-    // Trigger a reflow to ensure the class is applied, then remove the hidden class
-    requestAnimationFrame(() => {
-        bottomSwipeSection.classList.remove("hidden");
-        console.log('這裡有執行嗎？111')
-        imgElement.classList.remove("hidden");
-        console.log('這裡有執行嗎？222')
-    });
-}
-
-    // Create the img element
-    const imgElement = `
-        <img 
-            src="https://conflux-tech.com/wp-content/uploads/2024/12/Asset-6.png" 
-            alt="Scroll Left-Right"
-            class="swipe-section hidden"
-            style="
-            width: 46px;
-            height: auto;
-            object-fit: contain;
-            position: absolute;
-            bottom: 90px;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            margin: 0 auto;"
-        >
-    `;
-
-    // Create right swipe section overlay
-    const bottomSwipeSection = document.createElement("div");
-    bottomSwipeSection.classList.add("swipe-section");
-    bottomSwipeSection.classList.add("hidden");
-    bottomSwipeSection.style.position = "absolute";
-    bottomSwipeSection.style.bottom = "0";
-    bottomSwipeSection.style.right = "0";
-    bottomSwipeSection.style.width = "100%"; // Right half of the screen
-    bottomSwipeSection.style.height = "25%";
-    bottomSwipeSection.style.zIndex = "9"; // Ensure it's above WebGL canvas
-    bottomSwipeSection.style.backgroundColor = "rgba(115, 255, 70, 0.2)"; // Transparent background
-
+        });
+    
+        // 返回新生成的滑動區域元素（如果需要進一步操作）
+        return newSwipeSection;
+    }
+    
+    
+    
 if(isMobile) {
-   
-    document.body.appendChild(bottomSwipeSection);
-    bottomSwipeSection.insertAdjacentHTML("afterend", imgElement);
+    const bottomSwipeSection = await addSwipeSections();
 
     let startX = 0;
     let scrollPos = window.scrollY;
@@ -388,7 +389,6 @@ const continueAnimation = () => {
     swipeSections.forEach(section => {
         section.classList.remove("hidden"); // 顯示 swipe-section
     });
-    
 
     const mainWebGL = document.querySelector('.main-webgl');
     mainWebGL.classList.add("openList"); // 淡出 main-webgl
