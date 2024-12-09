@@ -1086,6 +1086,8 @@ async function addCards(eventName) {
         `;
     }
     document.head.appendChild(style);
+    // 移除 loading 動畫
+    main.removeChild(loadingElement);
 }
 
 function removeCards() {
