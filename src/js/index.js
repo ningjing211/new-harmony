@@ -534,7 +534,7 @@ let models = []
 gltfLoader.load(
     "/models/Dark_vador/nintendo_switch.glb",
     (gltf) => {
-        gltf.scene.scale.set(0.321, 0.321, 0.321)
+        gltf.scene.scale.set(0.322, 0.322, 0.322)
         gltf.scene.position.y = initialPositionMeshY 
         gltf.scene.rotation.y = initialRotationMeshY
 
