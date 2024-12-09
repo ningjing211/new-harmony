@@ -141,16 +141,16 @@ const detailsImage = await loadDetailsImage();
 function removeSwipeSections() {
     // Add fade-out effect
     bottomSwipeSection.classList.add("hidden");
-    imgElement.classList.add("hidden");
+    // imgElement.classList.add("hidden");
 
     // Wait for the transition to complete before removing from DOM
     setTimeout(() => {
         if (bottomSwipeSection.parentNode) {
             bottomSwipeSection.parentNode.removeChild(bottomSwipeSection);
         }
-        if (imgElement.parentNode) {
-            imgElement.parentNode.removeChild(imgElement);
-        }
+        // if (imgElement.parentNode) {
+        //     imgElement.parentNode.removeChild(imgElement);
+        // }
     }, 500); // 500ms matches the CSS transition duration
 }
 
@@ -158,17 +158,17 @@ function removeSwipeSections() {
 function addSwipeSections() {
     // Add to the DOM with the hidden class
     bottomSwipeSection.classList.add("hidden");
-    imgElement.classList.add("hidden");
+    // imgElement.classList.add("hidden");
 
     document.body.appendChild(bottomSwipeSection);
-    document.body.appendChild(imgElement);
+    // document.body.appendChild(imgElement);
 
 
     // Trigger a reflow to ensure the class is applied, then remove the hidden class
     requestAnimationFrame(() => {
         bottomSwipeSection.classList.remove("hidden");
         console.log('這裡有執行嗎？111')
-        imgElement.classList.remove("hidden");
+        // imgElement.classList.remove("hidden");
         console.log('這裡有執行嗎？222')
     });
 }
@@ -193,20 +193,20 @@ function addSwipeSections() {
     // `;
 
     // Create the img element dynamically
-    const imgElement = document.createElement("img");
-    imgElement.src = "https://conflux-tech.com/wp-content/uploads/2024/12/Asset-6.png";
-    imgElement.alt = "Scroll Left-Right";
-    imgElement.classList.add("swipe-section");
-    imgElement.classList.add("hidden");
-    imgElement.style.width = "46px";
-    imgElement.style.height = "auto";
-    imgElement.style.objectFit = "contain";
-    imgElement.style.position = "absolute";
-    imgElement.style.bottom = "40px";
-    imgElement.style.left = "0";
-    imgElement.style.right = "0";
-    imgElement.style.zIndex = "10";
-    imgElement.style.margin = "0 auto";
+    // const imgElement = document.createElement("img");
+    // imgElement.src = "https://conflux-tech.com/wp-content/uploads/2024/12/Asset-6.png";
+    // imgElement.alt = "Scroll Left-Right";
+    // imgElement.classList.add("swipe-section");
+    // imgElement.classList.add("hidden");
+    // imgElement.style.width = "46px";
+    // imgElement.style.height = "auto";
+    // imgElement.style.objectFit = "contain";
+    // imgElement.style.position = "absolute";
+    // imgElement.style.bottom = "40px";
+    // imgElement.style.left = "0";
+    // imgElement.style.right = "0";
+    // imgElement.style.zIndex = "10";
+    // imgElement.style.margin = "0 auto";
 
 
     // Create right swipe section overlay
@@ -224,7 +224,7 @@ function addSwipeSections() {
 if(isMobile) {
    
     document.body.appendChild(bottomSwipeSection);
-    document.body.appendChild(imgElement);
+    // document.body.appendChild(imgElement);
 
 
     let startX = 0;
