@@ -141,21 +141,15 @@ const detailsImage = await loadDetailsImage();
 function removeSwipeSections() {
     // Add fade-out effect
     bottomSwipeSection.classList.add("hidden");
-    const element = document.querySelector('img.swipe-section');
-    // 檢查是否選取到元素
-    if (element) {
-        // 為元素添加 hidden class
-        element.classList.add('hidden');
-    } else {
-        console.error('Element not found');
-    }
+    imgElement.classList.add("hidden");
+
     // Wait for the transition to complete before removing from DOM
     setTimeout(() => {
         if (bottomSwipeSection.parentNode) {
             bottomSwipeSection.parentNode.removeChild(bottomSwipeSection);
         }
-        if (element.parentNode) {
-            element.parentNode.removeChild(element);
+        if (imgElement.parentNode) {
+            imgElement.parentNode.removeChild(imgElement);
         }
     }, 500); // 500ms matches the CSS transition duration
 }
@@ -268,37 +262,37 @@ if(isMobile) {
     });
     });
 
-    [imgElement].forEach(section => {
+    // [imgElement].forEach(section => {
 
-        section.addEventListener("click", (e) => {
-            e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
-        });
+    //     section.addEventListener("click", (e) => {
+    //         e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
+    //     });
 
-    section.addEventListener("touchmove", (e) => {
+    // section.addEventListener("touchmove", (e) => {
 
 
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const deltaX = currentX - startX;
-        const deltaY = currentY - startY;
+    //     const currentX = e.touches[0].clientX;
+    //     const currentY = e.touches[0].clientY;
+    //     const deltaX = currentX - startX;
+    //     const deltaY = currentY - startY;
 
-        // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            e.preventDefault(); // 阻止垂直滾動
-            window.scrollBy({
-                top: 0,
-                left: -deltaX * 2, // 調整此倍數控制滑動速度
-                behavior: "smooth"
-            });
-            startX = currentX; // 更新起始點位置
-        }
-        });
+    //     // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
+    //     if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    //         e.preventDefault(); // 阻止垂直滾動
+    //         window.scrollBy({
+    //             top: 0,
+    //             left: -deltaX * 2, // 調整此倍數控制滑動速度
+    //             behavior: "smooth"
+    //         });
+    //         startX = currentX; // 更新起始點位置
+    //     }
+    //     });
 
-    section.addEventListener("touchend", () => {
-        // Update scroll position if necessary
-        scrollPos = window.scrollY;
-    });
-    });
+    // section.addEventListener("touchend", () => {
+    //     // Update scroll position if necessary
+    //     scrollPos = window.scrollY;
+    // });
+    // });
 
     window.addEventListener("resize", () => {
         // Adjust size and position if needed
