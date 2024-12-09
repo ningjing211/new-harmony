@@ -4,7 +4,7 @@ const fs = require('fs');
 const app = express();
 
 // Serve static assets from the "public" directory (for images, sounds, etc.)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'src')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 export default function handler(req, res) {
-    const jsonFilePath = path.join(process.cwd(), 'public/imagesOrder.json');
+    const jsonFilePath = path.join(process.cwd(), '/imagesOrder.json');
 
     // 檢查文件是否存在
     if (!fs.existsSync(jsonFilePath)) {
