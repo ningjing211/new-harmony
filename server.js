@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 // 提供 JSON 檔案資料的 API
 app.get('/api/images-order', (req, res) => {
-  const jsonFilePath = path.join(__dirname, 'public/imagesOrder.json');
+  const jsonFilePath = path.join(__dirname, '/imagesOrder.json');
   console.log('Checking JSON file at:', jsonFilePath);
   console.log('File exists:', fs.existsSync(jsonFilePath));
   fs.readFile(jsonFilePath, 'utf8', (err, data) => {
@@ -39,3 +39,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
