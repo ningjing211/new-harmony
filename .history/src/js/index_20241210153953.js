@@ -698,7 +698,6 @@ window.addEventListener("click", (event) => {
         if (intersects.length > 0) {
             const clickedObject = intersects[0].object;
             console.log('show clickedObject', clickedObject);
-            console.log('判斷是否執行clickedObject.userData && clickedObject.userData.name', clickedObject.userData && clickedObject.userData.name)
             if (clickedObject.userData && clickedObject.userData.name) {
                 const clickedValue = clickedObject.userData.name;
                 console.log(`Clicked on group: ${clickedValue}`);
