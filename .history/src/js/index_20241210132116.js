@@ -842,20 +842,9 @@ function getVideoId(url) {
       : null;
 }
 
-async function preloadImages(imagePaths) {
-    return Promise.all(
-        imagePaths.map((src) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = src;
-                img.onload = () => resolve(src);
-                img.onerror = reject;
-            });
-        })
-    );
-}
-
 async function addCards(eventName) {
+    // console.log(eventName);
+
     // 如果是手機，移除滑動區域
     if (isMobile) {
         await removeSwipeSections();
@@ -875,31 +864,30 @@ async function addCards(eventName) {
         existingFooter.remove();
     }
 
+    // 動態生成 HTML
+    let cardsHTML = `
+        <div class="page-event">
+            <div class="cover">
+                <div class="heading">${eventName}</div>
+    `;
+
     try {
         // 從後端獲取 JSON 資料
         const response = await fetch('/api/images-order');
         if (!response.ok) throw new Error('Failed to fetch JSON data.');
 
         const imagesData = (await response.json()).reverse();
+        // console.log('imagesData---', imagesData);
+        // console.log("前端接收到的 JSON 資料:", imagesData); // 印出從後端接收到的 JSON 資料
 
         // 找到對應的活動資料
-        const eventData = imagesData.find((item) => item.folderName === eventName);
+        const eventData = imagesData.find(item => item.folderName === eventName);
+
         if (!eventData) {
             console.error(`Event "${eventName}" not found in JSON data.`);
             return;
         }
-
-        // 預載圖片
-        const imagePaths = eventData.additionalImages.map((img) => img.path);
-        await preloadImages(imagePaths);
-
-        // 動態生成 HTML
-        let cardsHTML = `
-            <div class="page-event" style="pointer-events: auto; position: relative; z-index: 20;">
-                <div class="cover">
-                    <div class="heading">${eventName}</div>
-        `;
-
+        // console.log("找到的活動資料:", eventData); // 印出找到的活動資料
         // 遍歷 JSON 數據，生成對應的圖片和描述
         eventData.additionalImages.forEach((img, index) => {
             cardsHTML += `
@@ -912,27 +900,29 @@ async function addCards(eventName) {
                 </div>
             `;
         });
-
-        // 添加 Footer
-        cardsHTML += `
-            <footer>
-                <div class="footer-item">Contact us</div>
-                <div class="footer-item">
-                    <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
-                </div>
-                <div class="footer-item">
-                    禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
-                </div>
-            </footer>
-        `;
-
-        cardsHTML += `</div>`;
-        main.insertAdjacentHTML('beforeend', cardsHTML);
-
-        await initializeElements(eventName); // 確保初始化完成
     } catch (error) {
         console.error("Error loading images data:", error);
     }
+
+    // 添加 Footer
+    cardsHTML += `
+        <footer>
+            <div class="footer-item">
+            Contact us
+            </div>
+            <div class="footer-item">
+            <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
+            </div>
+            <div class="footer-item">
+            禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+            </div>
+        </footer>
+    `;
+
+    cardsHTML += `</div>`;
+    main.insertAdjacentHTML('beforeend', cardsHTML);
+
+    await initializeElements(eventName); // 確保初始化完成
 
     // 動態添加 CSS
     const style = document.createElement('style');
@@ -969,6 +959,7 @@ async function addCards(eventName) {
                 left: auto !important;
                 right: auto !important;
                 transform: none !important;
+                min-height: 700px !important;
             }
         `;
     }
