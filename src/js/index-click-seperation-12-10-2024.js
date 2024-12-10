@@ -673,40 +673,45 @@ for (let i = 0; i < 10; i++) {
     groupText.add(newText)
 }
 
-// 在你的初始化或主程式中，新增以下點擊事件處理邏輯：
+let currentState = "initial"; // 定義初始狀態
 
 window.addEventListener("click", (event) => {
-    console.log('1- 有進來一般的click嗎？')
-    handlePlane()
-    console.log('2- after handlePlane - 有進來一般的click嗎？')
-    // 計算滑鼠在 WebGL 畫布中的位置
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    console.log(`Current State: ${currentState}`); // 印出當前狀態
 
-    // 設置 Raycaster
-    raycatser.setFromCamera(mouse, camera);
+    if (currentState === "initial") {
+        console.log("State: Initial - Executing handlePlane()");
+        handlePlane();
+        currentState = "groupSelection"; // 切換到選擇 group 狀態
+    } else if (currentState === "groupSelection") {
+        handlePlane();
+        console.log("State: Group Selection - Checking for clicked group");
 
-    // 檢查是否有與 Raycaster 相交的物體
-    const intersects = raycatser.intersectObjects(groupPlane.children);
+        // 計算滑鼠在 WebGL 畫布中的位置
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    console.log('3- before intersects - 有進來一般的click嗎？')
+        // 設置 Raycaster
+        raycatser.setFromCamera(mouse, camera);
 
-    if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-        // console.log('有沒有clickedObject2', clickedObject);
-        
-        // 檢查 userData 是否存在，確保是指定的物體
-        console.log('4- inside intersects - 有進來一般的click嗎？')
+        // 檢查是否有與 Raycaster 相交的物體
+        const intersects = raycatser.intersectObjects(groupPlane.children);
 
-        if (clickedObject.userData && clickedObject.userData.name) {
-            const clickedValue = clickedObject.userData.name;
-            // console.log(`Clicked on: ${clickedValue}`);
-            console.log('5- in the if, before addcards - 有進來一般的click嗎？')
-
-            addCards(clickedValue);
-            console.log('6- in the if, before addcards - 有進來一般的click嗎？')
-
+        if (intersects.length > 0) {
+            const clickedObject = intersects[0].object;
+            console.log('show clickedObject', clickedObject);
+            console.log('判斷是否執行clickedObject.userData && clickedObject.userData.name', clickedObject.userData && clickedObject.userData.name)
+            if (clickedObject.userData && clickedObject.userData.name) {
+                const clickedValue = clickedObject.userData.name;
+                console.log(`Clicked on group: ${clickedValue}`);
+                addCards(clickedValue);
+                
+            }
+        } else {
+            console.log("No group selected.");
         }
+    } else if (currentState === "cardsDisplayed") {
+        console.log("State: Cards Displayed - Additional behavior can be added here");
+        // 在此處添加針對 cardsDisplayed 狀態的邏輯
     }
 });
 
@@ -867,6 +872,8 @@ async function preloadImages(imagePaths) {
 let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
+    currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
+    console.log('Top - in the addCards, currentStat:', currentState)
     executionCount++; // 每次執行時遞增
     const now = new Date(); // 獲取當前時間
     const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; // 格式化時間
