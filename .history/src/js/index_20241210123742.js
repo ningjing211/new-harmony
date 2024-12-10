@@ -1041,9 +1041,8 @@ function removeCards() {
 
 // 新增 touchstart 事件來支援手機點擊
 window.addEventListener("touchstart", (event) => {
-    
-    event.preventDefault(); // 防止觸控的默認行為
     const target = event.target;
+    event.preventDefault(); // 防止觸控的默認行為
     // 僅在需要的目標上模擬 click
     if (!target.tagName === "IFRAME" && !target.classList.contains("logo-image")) {
         iframe.style.pointerEvents = "none"; // 禁止 iframe 事件
