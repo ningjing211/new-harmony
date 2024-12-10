@@ -714,7 +714,7 @@ window.addEventListener("click", (event) => {
         if (clickedObject.userData && clickedObject.userData.name) {
             const clickedValue = clickedObject.userData.name;
             // console.log(`Clicked on: ${clickedValue}`);
-            debouncedAddCards(clickedValue);
+            addCards(clickedValue);
         }
     }
 });
