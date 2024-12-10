@@ -1225,14 +1225,13 @@ const init = () => {
 
     // Upadate raycaster
     if(!("ontouchstart" in window)) raycatser.setFromCamera(mouse, camera)
-    const intersects = raycatser.intersectObjects(groupPlane.children, true);
+    const intersects = raycatser.intersectObjects(groupPlane.children)
 
     // black and white to colo animation with raycaster
     if (isLoading) {
         if (intersects.length === 1) {
             if (currentIntersect === null) {
                 currentIntersect = intersects[0]
-                console.log('groupPlane.children', groupPlane.children, '這裡面有物件嗎')
                 console.log('這裡有被初始化嗎？------------------------')
             } else {
                 for (let i = 0; i < groupPlane.children.length; i++) {

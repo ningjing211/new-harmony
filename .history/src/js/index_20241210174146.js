@@ -1225,7 +1225,7 @@ const init = () => {
 
     // Upadate raycaster
     if(!("ontouchstart" in window)) raycatser.setFromCamera(mouse, camera)
-    const intersects = raycatser.intersectObjects(groupPlane.children, true);
+    const intersects = raycaster.intersectObjects(groupPlane.children, true); // 第二參數設為 true
 
     // black and white to colo animation with raycaster
     if (isLoading) {
