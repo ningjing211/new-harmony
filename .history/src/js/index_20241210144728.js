@@ -871,8 +871,6 @@ async function addCards(eventName) {
     const main = document.getElementById("player");
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
-    console.log(`中1- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
-
     const existingPageEvent = main.querySelector(".page-event");
     if (existingPageEvent) {
         main.removeChild(existingPageEvent);
@@ -883,8 +881,6 @@ async function addCards(eventName) {
     if (existingFooter) {
         existingFooter.remove();
     }
-
-    console.log(`中2- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     try {
         // 從後端獲取 JSON 資料
@@ -903,7 +899,6 @@ async function addCards(eventName) {
         // 預載圖片
         const imagePaths = eventData.additionalImages.map((img) => img.path);
         await preloadImages(imagePaths);
-        console.log(`中3- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 動態生成 HTML
         let cardsHTML = `
@@ -911,7 +906,6 @@ async function addCards(eventName) {
                 <div class="cover">
                     <div class="heading">${eventName}</div>
         `;
-        console.log(`中4- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 遍歷 JSON 數據，生成對應的圖片和描述
         eventData.additionalImages.forEach((img, index) => {
@@ -925,7 +919,6 @@ async function addCards(eventName) {
                 </div>
             `;
         });
-        console.log(`中5- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 添加 Footer
         cardsHTML += `
