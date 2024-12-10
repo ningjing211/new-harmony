@@ -697,10 +697,7 @@ window.addEventListener("click", (event) => {
         if (clickedObject.userData && clickedObject.userData.name) {
             const clickedValue = clickedObject.userData.name;
             // console.log(`Clicked on: ${clickedValue}`);
-            // 只在需要時執行 addCards
-            if (shouldExecuteAddCards(clickedValue)) {
-                addCards(clickedValue);
-            }
+            addCards(clickedValue);
         }
     }
 });
