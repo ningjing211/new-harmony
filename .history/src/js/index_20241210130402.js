@@ -196,6 +196,10 @@ if(isMobile) {
 
     section.addEventListener("touchmove", (e) => {
 
+        if (e.target.classList.contains('player-source')) {
+            // 避免滑動影響 YouTube iframe
+            return;
+        }
 
         const currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
@@ -220,13 +224,15 @@ if(isMobile) {
     });
     });
 
-    window.addEventListener("resize", () => {
-        // Adjust size and position if needed
-        bottomSwipeSection.style.width = "50%";
-        bottomSwipeSection.style.height = "100%";
-    });
+    // window.addEventListener("resize", () => {
+    //     // Adjust size and position if needed
+    //     bottomSwipeSection.style.width = "50%";
+    //     bottomSwipeSection.style.height = "100%";
+    // });
+   
     
 }
+
 // Debug
 const debugObject = {}
 
@@ -247,6 +253,10 @@ const sizesCanvas = {
 }
 
 window.addEventListener("resize", () => {
+    const iframe = document.querySelector(".player-source");
+    if (iframe) {
+        iframe.style.height = "260px"; // 強制保持固定高度
+    }
     // Update size
     sizesCanvas.width = window.innerWidth
     sizesCanvas.height = window.innerHeight
@@ -623,6 +633,10 @@ scene.add(groupPlane, groupText)
 const planeGeometry = new THREE.PlaneGeometry(2, 1.25, 32, 32)
 const planesMaterial = []
 
+// 清空 groupPlane 和 groupText
+groupPlane.clear();
+groupText.clear();
+
 // Create planes
 for (let i = 0; i < 10; i++) {
     planesMaterial.push(new THREE.ShaderMaterial({
@@ -674,6 +688,10 @@ for (let i = 0; i < 10; i++) {
 
 // 在你的初始化或主程式中，新增以下點擊事件處理邏輯：
 
+const debouncedAddCards = debounce((clickedValue) => {
+    addCards(clickedValue);
+}, 200); // 200 毫秒的防抖間隔
+
 window.addEventListener("click", (event) => {
 
     handlePlane()
@@ -696,7 +714,7 @@ window.addEventListener("click", (event) => {
         if (clickedObject.userData && clickedObject.userData.name) {
             const clickedValue = clickedObject.userData.name;
             // console.log(`Clicked on: ${clickedValue}`);
-            addCards(clickedValue);
+            debouncedAddCards(clickedValue);
         }
     }
 });
@@ -770,6 +788,15 @@ window.addEventListener("keydown", function(event) {
 
 
 const animationScroll = (e, touchEvent, value, downOrUp) => {
+    const iframe = document.querySelector(".player-source");
+
+    if (iframe) {
+        iframe.style.height = "260px"; // 手機高度
+        if (window.innerWidth >= 769) {
+            iframe.style.height = "700px"; // 桌面高度
+        }
+    }
+
     let deltaY;
 
     // 檢查是否為手機裝置
@@ -842,9 +869,20 @@ function getVideoId(url) {
       : null;
 }
 
-async function addCards(eventName) {
-    // console.log(eventName);
+async function preloadImages(imagePaths) {
+    return Promise.all(
+        imagePaths.map((src) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => resolve(src);
+                img.onerror = reject;
+            });
+        })
+    );
+}
 
+async function addCards(eventName) {
     // 如果是手機，移除滑動區域
     if (isMobile) {
         await removeSwipeSections();
@@ -864,30 +902,31 @@ async function addCards(eventName) {
         existingFooter.remove();
     }
 
-    // 動態生成 HTML
-    let cardsHTML = `
-        <div class="page-event">
-            <div class="cover">
-                <div class="heading">${eventName}</div>
-    `;
-
     try {
         // 從後端獲取 JSON 資料
         const response = await fetch('/api/images-order');
         if (!response.ok) throw new Error('Failed to fetch JSON data.');
 
         const imagesData = (await response.json()).reverse();
-        // console.log('imagesData---', imagesData);
-        // console.log("前端接收到的 JSON 資料:", imagesData); // 印出從後端接收到的 JSON 資料
 
         // 找到對應的活動資料
-        const eventData = imagesData.find(item => item.folderName === eventName);
-
+        const eventData = imagesData.find((item) => item.folderName === eventName);
         if (!eventData) {
             console.error(`Event "${eventName}" not found in JSON data.`);
             return;
         }
-        // console.log("找到的活動資料:", eventData); // 印出找到的活動資料
+
+        // 預載圖片
+        const imagePaths = eventData.additionalImages.map((img) => img.path);
+        await preloadImages(imagePaths);
+
+        // 動態生成 HTML
+        let cardsHTML = `
+            <div class="page-event">
+                <div class="cover">
+                    <div class="heading">${eventName}</div>
+        `;
+
         // 遍歷 JSON 數據，生成對應的圖片和描述
         eventData.additionalImages.forEach((img, index) => {
             cardsHTML += `
@@ -900,29 +939,27 @@ async function addCards(eventName) {
                 </div>
             `;
         });
+
+        // 添加 Footer
+        cardsHTML += `
+            <footer>
+                <div class="footer-item">Contact us</div>
+                <div class="footer-item">
+                    <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
+                </div>
+                <div class="footer-item">
+                    禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+                </div>
+            </footer>
+        `;
+
+        cardsHTML += `</div>`;
+        main.insertAdjacentHTML('beforeend', cardsHTML);
+
+        await initializeElements(eventName); // 確保初始化完成
     } catch (error) {
         console.error("Error loading images data:", error);
     }
-
-    // 添加 Footer
-    cardsHTML += `
-        <footer>
-            <div class="footer-item">
-            Contact us
-            </div>
-            <div class="footer-item">
-            <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
-            </div>
-            <div class="footer-item">
-            禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
-            </div>
-        </footer>
-    `;
-
-    cardsHTML += `</div>`;
-    main.insertAdjacentHTML('beforeend', cardsHTML);
-
-    await initializeElements(eventName); // 確保初始化完成
 
     // 動態添加 CSS
     const style = document.createElement('style');
@@ -959,12 +996,12 @@ async function addCards(eventName) {
                 left: auto !important;
                 right: auto !important;
                 transform: none !important;
-                min-height: 700px !important;
             }
         `;
     }
     document.head.appendChild(style);
 }
+
 
 function removeCards() {
     // console.log('Executing removeCards');
@@ -1004,21 +1041,28 @@ function removeCards() {
 
 // 新增 touchstart 事件來支援手機點擊
 window.addEventListener("touchstart", (event) => {
-    // 防止觸控的默認行為
-    event.preventDefault();
+    // 僅在非滑動操作時模擬 click
+    if (event.touches.length === 1 && !event.defaultPrevented) {
+        event.preventDefault();
 
-    // 創建一個新的 click 事件
-    const simulatedClickEvent = new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        clientX: event.touches[0].clientX,
-        clientY: event.touches[0].clientY
-    });
+        const simulatedClickEvent = new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            clientX: event.touches[0].clientX,
+            clientY: event.touches[0].clientY,
+        });
 
-    // 將 click 事件派發到觸控點的目標元素
-    event.target.dispatchEvent(simulatedClickEvent);
+        event.target.dispatchEvent(simulatedClickEvent);
+    }
 });
+
+window.addEventListener("touchend", () => {
+    setTimeout(() => {
+        iframe.style.pointerEvents = "auto"; // 恢復事件
+    }, 100); // 延遲恢復，確保滑動完成
+});
+
 
 const handlePlane = () => {
     if (currentIntersect && videoLook === false && isLoading) {
@@ -1312,3 +1356,17 @@ function renderCards(eventData) {
 // 呼叫 fetchImagesData 並傳入 eventName
 // fetchImagesData("DDD"); // 根據需要替換 "DDD" 為其他活動名稱
 
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+window.addEventListener(
+    "scroll",
+    debounce(() => {
+        updateScroll(); // 確保僅在間隔後觸發
+    }, 50)
+);
