@@ -1085,9 +1085,6 @@ const handlePlane = () => {
 }
 
 playerClose.addEventListener("click", () => {
-
-    isProcessing = false;
-
     event.stopPropagation();  // 防止點擊事件冒泡到 WebGL 場景
     playerSource.src = ""
     music.play()

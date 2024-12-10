@@ -858,9 +858,6 @@ let isProcessing = false;
 
 async function addCards(eventName) {
     // 如果是手機，移除滑動區域
-    if (isProcessing) return;
-    isProcessing = true;
-
     if (isMobile) {
         await removeSwipeSections();
     }
@@ -1085,9 +1082,6 @@ const handlePlane = () => {
 }
 
 playerClose.addEventListener("click", () => {
-
-    isProcessing = false;
-
     event.stopPropagation();  // 防止點擊事件冒泡到 WebGL 場景
     playerSource.src = ""
     music.play()
