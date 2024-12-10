@@ -222,12 +222,10 @@ if(isMobile) {
         }
         });
 
-        section.addEventListener("touchend", () => {
-            setTimeout(() => {
-                // 統一更新視圖
-                window.scrollTo({ top: scrollPos, behavior: "smooth" });
-            }, 100);
-        });
+    section.addEventListener("touchend", () => {
+        // Update scroll position if necessary
+        scrollPos = window.scrollY;
+    });
     });
 
     window.addEventListener("resize", () => {
@@ -1164,6 +1162,7 @@ let callChangeTouchValue = 0
 let touchI = - 1
 
 // 12-10-2024-防止跳動
+
 
 const updateModels = () => {
     if (isLoading && scrollI !== prevScrollI) { // 僅在滾動值變化時更新

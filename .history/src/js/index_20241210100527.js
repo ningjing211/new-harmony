@@ -222,12 +222,10 @@ if(isMobile) {
         }
         });
 
-        section.addEventListener("touchend", () => {
-            setTimeout(() => {
-                // 統一更新視圖
-                window.scrollTo({ top: scrollPos, behavior: "smooth" });
-            }, 100);
-        });
+    section.addEventListener("touchend", () => {
+        // Update scroll position if necessary
+        scrollPos = window.scrollY;
+    });
     });
 
     window.addEventListener("resize", () => {

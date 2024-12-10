@@ -182,14 +182,6 @@ bottomSwipeSection.style.backgroundRepeat = "no-repeat";
 bottomSwipeSection.style.backgroundSize = "16%";
 
 
-const updateSwipeSectionVisibility = (isVisible) => {
-    if (isVisible) {
-        bottomSwipeSection.classList.remove("hidden");
-    } else {
-        bottomSwipeSection.classList.add("hidden");
-    }
-};
-
 if(isMobile) {
     document.body.appendChild(bottomSwipeSection);
 
@@ -222,12 +214,10 @@ if(isMobile) {
         }
         });
 
-        section.addEventListener("touchend", () => {
-            setTimeout(() => {
-                // 統一更新視圖
-                window.scrollTo({ top: scrollPos, behavior: "smooth" });
-            }, 100);
-        });
+    section.addEventListener("touchend", () => {
+        // Update scroll position if necessary
+        scrollPos = window.scrollY;
+    });
     });
 
     window.addEventListener("resize", () => {
@@ -250,6 +240,7 @@ section.addEventListener("touchmove", (e) => {
 
     // Existing touchmove logic here...
 });
+
 
 
 // Debug
@@ -1163,24 +1154,7 @@ const clock = new THREE.Clock()
 let callChangeTouchValue = 0
 let touchI = - 1
 
-// 12-10-2024-防止跳動
-
-const updateModels = () => {
-    if (isLoading && scrollI !== prevScrollI) { // 僅在滾動值變化時更新
-        models.forEach((model, index) => {
-            model.rotation.y = initialRotationMeshY - scrollI * 0.002355;
-            model.position.y = initialPositionMeshY - scrollI * 0.07;
-            model.position.z = -scrollI * 0.065;
-        });
-        prevScrollI = scrollI; // 記錄上次滾動值
-    }
-};
-
 const init = () => {
-    updateModels();
-    renderer.render(scene, camera);
-    requestAnimationFrame(init);
-
     const elapsedTime = clock.getElapsedTime()
         
     // Update shaders
