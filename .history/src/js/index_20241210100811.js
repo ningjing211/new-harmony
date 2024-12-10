@@ -182,6 +182,14 @@ bottomSwipeSection.style.backgroundRepeat = "no-repeat";
 bottomSwipeSection.style.backgroundSize = "16%";
 
 
+// const updateSwipeSectionVisibility = (isVisible) => {
+//     if (isVisible) {
+//         bottomSwipeSection.classList.remove("hidden");
+//     } else {
+//         bottomSwipeSection.classList.add("hidden");
+//     }
+// };
+
 if(isMobile) {
     document.body.appendChild(bottomSwipeSection);
 
@@ -194,33 +202,31 @@ if(isMobile) {
             e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
         });
 
-        let lastDeltaX = 0, lastDeltaY = 0;
-        section.addEventListener("touchmove", (e) => {
-            const currentX = e.touches[0].clientX;
-            const currentY = e.touches[0].clientY;
-            const deltaX = currentX - startX;
-            const deltaY = currentY - startY;
-        
-            // 避免無意義的小滑動觸發
-            if (Math.abs(deltaX - lastDeltaX) < 1 && Math.abs(deltaY - lastDeltaY) < 1) {
-                return;
-            }
-            lastDeltaX = deltaX;
-            lastDeltaY = deltaY;
-        
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                e.preventDefault();
-                window.scrollBy({
-                    left: -deltaX * 2,
-                    behavior: "smooth",
-                });
-                startX = currentX;
-            }
+    section.addEventListener("touchmove", (e) => {
+
+
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+
+        // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault(); // 阻止垂直滾動
+            window.scrollBy({
+                top: 0,
+                left: -deltaX * 2, // 調整此倍數控制滑動速度
+                behavior: "smooth"
+            });
+            startX = currentX; // 更新起始點位置
+        }
         });
 
         section.addEventListener("touchend", () => {
-            // Update scroll position if necessary
-            scrollPos = window.scrollY;
+            setTimeout(() => {
+                // 統一更新視圖
+                window.scrollTo({ top: scrollPos, behavior: "smooth" });
+            }, 100);
         });
     });
 
@@ -232,7 +238,18 @@ if(isMobile) {
     
 }
 
+// 12-10-2024-防止跳動
 
+let lastTouchMoveTime = 0;
+const throttleDelay = 50; // 50ms
+
+section.addEventListener("touchmove", (e) => {
+    const currentTime = Date.now();
+    if (currentTime - lastTouchMoveTime < throttleDelay) return; // 節流
+    lastTouchMoveTime = currentTime;
+
+    // Existing touchmove logic here...
+});
 
 
 // Debug
@@ -776,50 +793,48 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
-let lastUpdate = 0;
 
 const animationScroll = (e, touchEvent, value, downOrUp) => {
-
-    const now = performance.now();
-    if (now - lastUpdate < 16) return; // 限制每16ms執行一次
-    lastUpdate = now;
-
-
     let deltaY;
 
     // 檢查是否為手機裝置
     const isMobile = window.innerWidth <= 768;
 
     if (touchEvent && isMobile) {
+        // 如果是手機並且是觸控事件，直接使用傳入的值
         deltaY = value;
     } else if (!isMobile) {
-        const scrollStepKeyboard = 20;
-        const scrollStepMouse = 3;
+        // 非手機裝置處理滑鼠滾輪和鍵盤事件
+        const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
+        const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
 
         if (e.type === "wheel") {
-            deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse;
+            deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse; // 滑鼠滾輪事件
         } else {
-            deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard;
+            deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard; // 鍵盤事件
         }
     }
 
+    // 確認是否在正確狀態下滾動
     if (videoLook === false && isLoading && typeof deltaY !== 'undefined') {
         if (deltaY < 0 && scrollI > 0) {
-            scrollI -= Math.abs(deltaY);
+            scrollI -= Math.abs(deltaY); // 向上滾動
         } else if (deltaY > 0 && scrollI <= 435) {
-            scrollI += Math.abs(deltaY);
+            scrollI += Math.abs(deltaY); // 向下滾動
         }
 
-        const speed = 0.01;
+        const speed = 0.01; // 控制滾動速度的係數
 
         // 更新模型位置
         models.forEach((model, index) => {
-            const newY = (initialPositionMeshY) - scrollI * (speed * 0.07);
-            const newZ = -scrollI * (speed * 0.065);
-            if (model.position.y !== newY || model.position.z !== newZ) {
-                model.position.y = newY;
-                model.position.z = newZ;
+            model.rotation.y = (initialRotationMeshY) - scrollI * 0.002355; // 更新旋轉
+            if (index === 0) {
+                model.position.y = (initialPositionMeshY) - scrollI * (speed * 0.07); // 更新 Y 位置
+            } else if (index === 1) {
+                model.position.y = (initialPositionMeshY - 0) - scrollI * (speed * 0.07);
             }
+            
+            model.position.z = - scrollI * (speed * 0.065); // 更新 Z 位置
         });
 
         // 更新平面和文字位置
@@ -827,21 +842,17 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
             const plane = groupPlane.children[i];
             const text = groupText.children[i];
 
-            const newPositionX = -Math.cos(i + 1 * scrollI * (speed * 10)) * Math.PI;
-            const newPositionZ = -Math.sin(i + 1 * scrollI * (speed * 10)) * Math.PI;
-            const newPositionY = (i - 14.2) + (scrollI * (speed * 10));
+            plane.position.z = - Math.sin(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.x = - Math.cos(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.y = (i - 14.2) + (scrollI * (speed * 10));
 
-            // 檢查是否有必要更新位置與朝向
-            if (plane.position.x !== newPositionX || plane.position.y !== newPositionY) {
-                plane.position.set(newPositionX, newPositionY, newPositionZ);
-                plane.lookAt(0, plane.position.y, 0);
-            }
+            plane.lookAt(0, plane.position.y, 0); // 更新平面朝向
 
             text.position.z = plane.position.z - 0.5;
             text.position.x = plane.position.x;
             text.position.y = plane.position.y - 0.3;
 
-            text.lookAt(plane.position.x * 2, plane.position.y - 0.3, plane.position.z * 2);
+            text.lookAt(plane.position.x * 2, plane.position.y - 0.3, plane.position.z * 2); // 更新文字朝向
         }
     }
 };
@@ -1152,7 +1163,24 @@ const clock = new THREE.Clock()
 let callChangeTouchValue = 0
 let touchI = - 1
 
+// 12-10-2024-防止跳動
+
+const updateModels = () => {
+    if (isLoading && scrollI !== prevScrollI) { // 僅在滾動值變化時更新
+        models.forEach((model, index) => {
+            model.rotation.y = initialRotationMeshY - scrollI * 0.002355;
+            model.position.y = initialPositionMeshY - scrollI * 0.07;
+            model.position.z = -scrollI * 0.065;
+        });
+        prevScrollI = scrollI; // 記錄上次滾動值
+    }
+};
+
 const init = () => {
+    updateModels();
+    renderer.render(scene, camera);
+    requestAnimationFrame(init);
+
     const elapsedTime = clock.getElapsedTime()
         
     // Update shaders

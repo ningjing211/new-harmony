@@ -776,7 +776,6 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
-let lastUpdate = 0;
 
 const animationScroll = (e, touchEvent, value, downOrUp) => {
 
@@ -791,41 +790,52 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
     const isMobile = window.innerWidth <= 768;
 
     if (touchEvent && isMobile) {
+        // 如果是手機並且是觸控事件，直接使用傳入的值
         deltaY = value;
     } else if (!isMobile) {
-        const scrollStepKeyboard = 20;
-        const scrollStepMouse = 3;
+        // 非手機裝置處理滑鼠滾輪和鍵盤事件
+        const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
+        const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
 
         if (e.type === "wheel") {
-            deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse;
+            deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse; // 滑鼠滾輪事件
         } else {
-            deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard;
+            deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard; // 鍵盤事件
         }
     }
 
+    // 確認是否在正確狀態下滾動
     if (videoLook === false && isLoading && typeof deltaY !== 'undefined') {
         if (deltaY < 0 && scrollI > 0) {
-            scrollI -= Math.abs(deltaY);
+            scrollI -= Math.abs(deltaY); // 向上滾動
         } else if (deltaY > 0 && scrollI <= 435) {
-            scrollI += Math.abs(deltaY);
+            scrollI += Math.abs(deltaY); // 向下滾動
         }
 
-        const speed = 0.01;
+        const speed = 0.01; // 控制滾動速度的係數
 
         // 更新模型位置
         models.forEach((model, index) => {
-            const newY = (initialPositionMeshY) - scrollI * (speed * 0.07);
-            const newZ = -scrollI * (speed * 0.065);
-            if (model.position.y !== newY || model.position.z !== newZ) {
-                model.position.y = newY;
-                model.position.z = newZ;
+            model.rotation.y = (initialRotationMeshY) - scrollI * 0.002355; // 更新旋轉
+            if (index === 0) {
+                model.position.y = (initialPositionMeshY) - scrollI * (speed * 0.07); // 更新 Y 位置
+            } else if (index === 1) {
+                model.position.y = (initialPositionMeshY - 0) - scrollI * (speed * 0.07);
             }
+            
+            model.position.z = - scrollI * (speed * 0.065); // 更新 Z 位置
         });
 
         // 更新平面和文字位置
         for (let i = 0; i < groupPlane.children.length; i++) {
             const plane = groupPlane.children[i];
             const text = groupText.children[i];
+
+            plane.position.z = - Math.sin(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.x = - Math.cos(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.y = (i - 14.2) + (scrollI * (speed * 10));
+
+            plane.lookAt(0, plane.position.y, 0); // 更新平面朝向
 
             const newPositionX = -Math.cos(i + 1 * scrollI * (speed * 10)) * Math.PI;
             const newPositionZ = -Math.sin(i + 1 * scrollI * (speed * 10)) * Math.PI;
@@ -841,7 +851,7 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
             text.position.x = plane.position.x;
             text.position.y = plane.position.y - 0.3;
 
-            text.lookAt(plane.position.x * 2, plane.position.y - 0.3, plane.position.z * 2);
+            text.lookAt(plane.position.x * 2, plane.position.y - 0.3, plane.position.z * 2); // 更新文字朝向
         }
     }
 };

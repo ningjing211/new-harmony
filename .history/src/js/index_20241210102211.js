@@ -776,7 +776,6 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
-let lastUpdate = 0;
 
 const animationScroll = (e, touchEvent, value, downOrUp) => {
 
