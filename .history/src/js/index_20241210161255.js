@@ -873,7 +873,7 @@ let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
     const main = document.getElementById("player");
-    console.log('進入addCards, 印出player:main---', main);
+    console.log(main);
     currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
     console.log('Top - in the addCards, currentStat:', currentState)
     executionCount++; // 每次執行時遞增

@@ -872,8 +872,6 @@ async function preloadImages(imagePaths) {
 let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
-    const main = document.getElementById("player");
-    console.log('進入addCards, 印出player:main---', main);
     currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
     console.log('Top - in the addCards, currentStat:', currentState)
     executionCount++; // 每次執行時遞增
@@ -886,7 +884,7 @@ async function addCards(eventName) {
         await removeSwipeSections();
     }
 
-    
+    const main = document.getElementById("player");
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
     console.log(`中1- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
@@ -1113,9 +1111,6 @@ const handlePlane = () => {
 }
 
 playerClose.addEventListener("click", () => {
-    console.log('進來playerClose, addCards執行過後, 準備關掉了')
-    currentState = "groupSelection"; // 切換到選擇 group 狀態
-    console.log('要關掉addCards, 改變currentStata:', currentState);
     event.stopPropagation();  // 防止點擊事件冒泡到 WebGL 場景
     playerSource.src = ""
     music.play()
