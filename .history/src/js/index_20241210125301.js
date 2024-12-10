@@ -1070,7 +1070,6 @@ window.addEventListener("touchmove", (e) => {
         e.preventDefault();
     }
 }, { passive: false });
-
 const handlePlane = () => {
     if (currentIntersect && videoLook === false && isLoading) {
         for (let i = 0; i < groupPlane.children.length; i++) {
