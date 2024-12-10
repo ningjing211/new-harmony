@@ -702,7 +702,7 @@ window.addEventListener("click", (event) => {
                 const clickedValue = clickedObject.userData.name;
                 console.log(`Clicked on group: ${clickedValue}`);
                 addCards(clickedValue);
-                
+                currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
             }
         } else {
             console.log("No group selected.");
@@ -870,7 +870,6 @@ async function preloadImages(imagePaths) {
 let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
-    currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
     executionCount++; // 每次執行時遞增
     const now = new Date(); // 獲取當前時間
     const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; // 格式化時間
