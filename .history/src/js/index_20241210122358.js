@@ -1275,7 +1275,7 @@ function renderCards(eventData) {
     }
 
     let cardsHTML = `
-        <div class="page-event" style="pointer-events: auto; position: relative; z-index: 20;">
+        <div class="page-event">
             <div class="cover">
                 <div class="heading">${eventData.title}</div>
     `;
