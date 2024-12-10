@@ -752,10 +752,6 @@ p a {
     background-color: #36363a;
 }
 
-.player-source {
-  min-height: 260px; /* 手機裝置的預設高度 */
-}
-
 @media (min-width: 769px) {
   .player-source {
       min-height: 700px; /* 非手機裝置的高度 */
