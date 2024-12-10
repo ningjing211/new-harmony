@@ -685,11 +685,7 @@ window.addEventListener("click", (event) => {
     } else if (currentState === "groupSelection") {
         handlePlane();
         console.log("State: Group Selection - Checking for clicked group");
-        // 根據 flag 判斷是否需要跳過以下邏輯
-        if (intersectFlag) {
-            console.log('Intersect flag is true, skipping further execution.');
-            return; // 不執行後續邏輯
-        }
+
         // 計算滑鼠在 WebGL 畫布中的位置
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;

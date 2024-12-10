@@ -685,11 +685,7 @@ window.addEventListener("click", (event) => {
     } else if (currentState === "groupSelection") {
         handlePlane();
         console.log("State: Group Selection - Checking for clicked group");
-        // 根據 flag 判斷是否需要跳過以下邏輯
-        if (intersectFlag) {
-            console.log('Intersect flag is true, skipping further execution.');
-            return; // 不執行後續邏輯
-        }
+
         // 計算滑鼠在 WebGL 畫布中的位置
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -876,7 +872,6 @@ async function preloadImages(imagePaths) {
 let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
-    console.log('印出event name', eventName);
     const main = document.querySelector(".player")
     console.log('進入addCards, 印出player:main---', main);
     currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
@@ -918,7 +913,6 @@ async function addCards(eventName) {
 
         // 找到對應的活動資料
         const eventData = imagesData.find((item) => item.folderName === eventName);
-        console.log('Fetched Event Data:', eventData);
         if (!eventData) {
             console.error(`Event "${eventName}" not found in JSON data.`);
             return;
@@ -965,11 +959,7 @@ async function addCards(eventName) {
         `;
 
         cardsHTML += `</div>`;
-        console.log('Generated cardsHTML:', cardsHTML);
-        console.log('Updated DOM:-11111', main.innerHTML);
-
         main.insertAdjacentHTML('beforeend', cardsHTML);
-        console.log('Updated DOM:-22222', main.innerHTML);
 
         await initializeElements(eventName); // 確保初始化完成
         
@@ -1074,22 +1064,7 @@ window.addEventListener("touchstart", (event) => {
     event.target.dispatchEvent(simulatedClickEvent);
 });
 
-let intersectFlag = false; // 全局變數，作為旗標控制邏輯
-
-
 const handlePlane = () => {
-    console.log('111', currentIntersect)
-    // 如果 currentIntersect 為 null，直接退出函式
-    if (!currentIntersect) {
-        console.log('currentIntersect is null, exiting handlePlane.');
-        intersectFlag = true; // 設置旗標為 true，表示不需要繼續執行
-        return; // 終止函式執行
-    }
-
-    intersectFlag = false; // 設置旗標為 true，表示不需要繼續執行
-
-    console.log('222', videoLook)
-    console.log('333', isLoading)
     if (currentIntersect && videoLook === false && isLoading) {
         for (let i = 0; i < groupPlane.children.length; i++) {
             if (groupPlane.children[i] === currentIntersect.object) {
@@ -1122,7 +1097,7 @@ const handlePlane = () => {
 
                 const videoId = getVideoId(detailsImage[i].url);
                 playerSource.src = "https://www.youtube.com/embed/" + videoId
-                console.log('有沒有執行到setTimeOut之前，opacity and visible');
+                
                 setTimeout(() => {
                     player.style.visibility = "visible"
 
