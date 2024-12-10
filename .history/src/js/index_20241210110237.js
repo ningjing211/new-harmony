@@ -229,10 +229,6 @@ if(isMobile) {
     //     bottomSwipeSection.style.width = "50%";
     //     bottomSwipeSection.style.height = "100%";
     // });
-    window.addEventListener("resize", () => {
-        const iframe = document.querySelector(".player-source");
-        iframe.style.height = "260px"; // 強制保持固定高度
-    });
     
 }
 
@@ -256,7 +252,8 @@ const sizesCanvas = {
 }
 
 window.addEventListener("resize", () => {
-    
+    const iframe = document.querySelector(".player-source");
+    iframe.style.height = "260px"; // 強制保持固定高度
     // Update size
     sizesCanvas.width = window.innerWidth
     sizesCanvas.height = window.innerHeight
