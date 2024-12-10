@@ -1035,12 +1035,6 @@ window.addEventListener("touchstart", (event) => {
     event.target.dispatchEvent(simulatedClickEvent);
 });
 
-window.addEventListener("touchmove", (e) => {
-    if (e.target.tagName === "IFRAME") {
-        e.stopPropagation();
-    }
-}, { passive: true });
-
 const handlePlane = () => {
     if (currentIntersect && videoLook === false && isLoading) {
         for (let i = 0; i < groupPlane.children.length; i++) {
