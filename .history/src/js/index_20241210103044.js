@@ -1313,17 +1313,3 @@ function renderCards(eventData) {
 // 呼叫 fetchImagesData 並傳入 eventName
 // fetchImagesData("DDD"); // 根據需要替換 "DDD" 為其他活動名稱
 
-function debounce(func, delay) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-window.addEventListener(
-    "scroll",
-    debounce(() => {
-        updateScroll(); // 確保僅在間隔後觸發
-    }, 50)
-);
