@@ -186,7 +186,6 @@ if(isMobile) {
     document.body.appendChild(bottomSwipeSection);
 
     let startX = 0;
-    let startY = 0; // 12-10-2024 3小, 裝了safari console才知道這個沒宣告
     let scrollPos = window.scrollY;
 
     [bottomSwipeSection].forEach(section => {
@@ -1100,7 +1099,6 @@ playerClose.addEventListener("click", () => {
     if (player.style) {
         player.style.visibility = "hidden";
     }
-    // 報錯 為何 12 - 10 - 2024
     gsap.to(groupPlane.children[planeClickedIndex].position, 0.5, {
         x: lastPosition.px,
         y: lastPosition.py,

@@ -1100,7 +1100,6 @@ playerClose.addEventListener("click", () => {
     if (player.style) {
         player.style.visibility = "hidden";
     }
-    // 報錯 為何 12 - 10 - 2024
     gsap.to(groupPlane.children[planeClickedIndex].position, 0.5, {
         x: lastPosition.px,
         y: lastPosition.py,

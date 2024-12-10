@@ -186,7 +186,6 @@ if(isMobile) {
     document.body.appendChild(bottomSwipeSection);
 
     let startX = 0;
-    let startY = 0; // 12-10-2024 3小, 裝了safari console才知道這個沒宣告
     let scrollPos = window.scrollY;
 
     [bottomSwipeSection].forEach(section => {
@@ -859,9 +858,6 @@ let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
     executionCount++; // 每次執行時遞增
-    const now = new Date(); // 獲取當前時間
-    const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; // 格式化時間
-    console.debug(`addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     // 如果是手機，移除滑動區域
     if (isMobile) {
@@ -1100,7 +1096,6 @@ playerClose.addEventListener("click", () => {
     if (player.style) {
         player.style.visibility = "hidden";
     }
-    // 報錯 為何 12 - 10 - 2024
     gsap.to(groupPlane.children[planeClickedIndex].position, 0.5, {
         x: lastPosition.px,
         y: lastPosition.py,
