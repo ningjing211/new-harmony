@@ -1021,12 +1021,9 @@ function removeCards() {
 //     }
 
 // })
-const iframe = document.querySelector(".player-source");
 
 // 新增 touchstart 事件來支援手機點擊
 window.addEventListener("touchstart", (event) => {
-    iframe.style.pointerEvents = "none"; // 禁止事件
-
     if (event.target.tagName === "IFRAME") {
         e.stopPropagation();
     }
@@ -1044,12 +1041,6 @@ window.addEventListener("touchstart", (event) => {
 
     // 將 click 事件派發到觸控點的目標元素
     event.target.dispatchEvent(simulatedClickEvent);
-});
-
-window.addEventListener("touchend", () => {
-    setTimeout(() => {
-        iframe.style.pointerEvents = "auto"; // 恢復事件
-    }, 100); // 延遲恢復，確保滑動完成
 });
 
 window.addEventListener("touchmove", (e) => {
