@@ -303,8 +303,7 @@ const loadingManager = new THREE.LoadingManager(
                 top: 10,
                 left: 10,
                 transform: "translate(0, 0)",
-                width: 150,
-                letterSpacing: "2px",
+                width: 200,
                 ease: Power1.easeIn
             })
 
@@ -313,7 +312,7 @@ const loadingManager = new THREE.LoadingManager(
                 top: 10,
                 left: 10,
                 transform: "translate(0, 0)",
-                width: 166,
+                width: 200,
                 ease: Power1.easeIn
             })
 

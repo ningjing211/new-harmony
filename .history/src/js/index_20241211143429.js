@@ -22,7 +22,7 @@ const playerSource = document.querySelector(".player-source")
 const counterLoading = document.querySelector(".counterLoading")
 const header = document.querySelector("header")
 const h1 = document.querySelector("h1")
-const li = document.querySelector(".the-harmony-logo")
+const li = document.querySelector(".logo-image")
 const footer = document.querySelector("footer")
 const loading = document.querySelector(".loading")
 const started = document.querySelector(".started")
@@ -303,8 +303,7 @@ const loadingManager = new THREE.LoadingManager(
                 top: 10,
                 left: 10,
                 transform: "translate(0, 0)",
-                width: 150,
-                letterSpacing: "2px",
+                width: 200,
                 ease: Power1.easeIn
             })
 
@@ -313,7 +312,7 @@ const loadingManager = new THREE.LoadingManager(
                 top: 10,
                 left: 10,
                 transform: "translate(0, 0)",
-                width: 166,
+                width: 200,
                 ease: Power1.easeIn
             })
 
