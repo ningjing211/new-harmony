@@ -643,17 +643,23 @@ for (let i = 0; i < 10; i++) {
 
     
     if (isMobile) {
-        plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
-        plane.position.y = i - 10
+        plane.scale.set(1.8, 1.8, 1.8); // Increase to make the image larger, decrease for smaller
+        plane.position.y = i - 15
     } else {
         plane.position.y = i - 14.2
     }
 
+
+    if (isMobile) {
+        const spacingFactor = 1.5; // 控制平面之間的水平距離
+        plane.position.x = -Math.cos(i) * Math.PI * spacingFactor;
+        plane.position.z = -Math.sin(i) * Math.PI * spacingFactor;
+    } else {
     
-    plane.position.x = - Math.cos(i) * Math.PI
-    plane.position.z = - Math.sin(i) * Math.PI
-    plane.lookAt(0, plane.position.y, 0)
-    
+        plane.position.x = - Math.cos(i) * Math.PI
+        plane.position.z = - Math.sin(i) * Math.PI
+        plane.lookAt(0, plane.position.y, 0)
+    }
     // 設置 userData，儲存點擊後要用到的值
     plane.userData = {
         name: detailsImage[i].name,

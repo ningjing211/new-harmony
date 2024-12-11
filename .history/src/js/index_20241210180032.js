@@ -641,10 +641,12 @@ for (let i = 0; i < 10; i++) {
     // Plane
     const plane = new THREE.Mesh(planeGeometry, planesMaterial[i])
 
+    const verticalSpacing = 1.2; // 垂直方向間距
+
     
     if (isMobile) {
         plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
-        plane.position.y = i - 10
+        plane.position.y = i * verticalSpacing - 10
     } else {
         plane.position.y = i - 14.2
     }

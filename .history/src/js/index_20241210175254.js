@@ -644,7 +644,7 @@ for (let i = 0; i < 10; i++) {
     
     if (isMobile) {
         plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
-        plane.position.y = i - 10
+        plane.position.y = i - 13
     } else {
         plane.position.y = i - 14.2
     }
