@@ -870,9 +870,9 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
             const plane = groupPlane.children[i];
             const text = groupText.children[i];
 
-            plane.position.z = - Math.sin(i + 1.2 * scrollI * (speed * 10)) * Math.PI;
-            plane.position.x = - Math.cos(i + 1.2 * scrollI * (speed * 10)) * Math.PI;
-            plane.position.y = (i - 19.2) + (scrollI * (speed * 10));
+            plane.position.z = - Math.sin(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.x = - Math.cos(i + 1 * scrollI * (speed * 10)) * Math.PI;
+            plane.position.y = (i - 14.2) + (scrollI * (speed * 10));
 
             plane.lookAt(0, plane.position.y, 0); // 更新平面朝向
 
