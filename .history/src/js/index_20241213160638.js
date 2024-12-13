@@ -292,8 +292,8 @@ const loadingManager = new THREE.LoadingManager(
     () => {
         window.setTimeout(() => {
             gsap.to(header, 0.5, {
-                top: 0,
-                left: 60,
+                top: 10,
+                left: 10,
                 transform: "translate(0, 0)",
                 ease: Power1.easeIn
             })
@@ -347,7 +347,7 @@ const loadingManager = new THREE.LoadingManager(
         const progressRatio = itemsLoaded / itemsTotal
 
         counterLoading.innerHTML = `${(progressRatio * 100).toFixed(0)}%`
-        header.style.width = `${(progressRatio * 226).toFixed(0)}px`
+        header.style.width = `${(progressRatio * 2260).toFixed(0)}px`
     }
 )
 

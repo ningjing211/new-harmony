@@ -31,12 +31,13 @@ header {
     transform: translate(-50%, -50%);
     overflow: hidden;
     z-index: 5;
+    width: 226px;
     
     div {
         position: absolute;
         text-align: center;
-        width: 226px;
-        top: 50%;
+        width: 166px;
+        top: 65%;
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 50px;
