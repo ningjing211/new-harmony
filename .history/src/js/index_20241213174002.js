@@ -242,53 +242,53 @@ bottomSwipeSection.style.backgroundRepeat = "no-repeat";
 bottomSwipeSection.style.backgroundSize = "16%";
 
 
-if(isMobile) {
-    document.body.appendChild(bottomSwipeSection);
+// if(isMobile) {
+//     document.body.appendChild(bottomSwipeSection);
 
-    let startX = 0;
-    let startY = 0; // 12-10-2024 3小, 裝了safari console才知道這個沒宣告
-    let scrollPos = window.scrollY;
+//     let startX = 0;
+//     let startY = 0; // 12-10-2024 3小, 裝了safari console才知道這個沒宣告
+//     let scrollPos = window.scrollY;
 
-    [bottomSwipeSection].forEach(section => {
+//     [bottomSwipeSection].forEach(section => {
 
-        section.addEventListener("click", (e) => {
-            e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
-        });
+//         section.addEventListener("click", (e) => {
+//             e.stopPropagation(); // 阻止事件傳播，防止穿透到 WebGL 層
+//         });
 
-    section.addEventListener("touchmove", (e) => {
+//     section.addEventListener("touchmove", (e) => {
 
 
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const deltaX = currentX - startX;
-        const deltaY = currentY - startY;
+//         const currentX = e.touches[0].clientX;
+//         const currentY = e.touches[0].clientY;
+//         const deltaX = currentX - startX;
+//         const deltaY = currentY - startY;
 
-        // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            e.preventDefault(); // 阻止垂直滾動
-            window.scrollBy({
-                top: 0,
-                left: -deltaX * 2, // 調整此倍數控制滑動速度
-                behavior: "smooth"
-            });
-            startX = currentX; // 更新起始點位置
+//         // 如果水平滑動的距離大於垂直滑動的距離，則執行水平滾動
+//         if (Math.abs(deltaX) > Math.abs(deltaY)) {
+//             e.preventDefault(); // 阻止垂直滾動
+//             window.scrollBy({
+//                 top: 0,
+//                 left: -deltaX * 2, // 調整此倍數控制滑動速度
+//                 behavior: "smooth"
+//             });
+//             startX = currentX; // 更新起始點位置
             
-        }
-        });
+//         }
+//         });
 
-    section.addEventListener("touchend", () => {
-        // Update scroll position if necessary
-        scrollPos = window.scrollY;
-    });
-    });
+//     section.addEventListener("touchend", () => {
+//         // Update scroll position if necessary
+//         scrollPos = window.scrollY;
+//     });
+//     });
 
-    window.addEventListener("resize", () => {
-        // Adjust size and position if needed
-        bottomSwipeSection.style.width = "50%";
-        bottomSwipeSection.style.height = "100%";
-    });
+//     window.addEventListener("resize", () => {
+//         // Adjust size and position if needed
+//         bottomSwipeSection.style.width = "50%";
+//         bottomSwipeSection.style.height = "100%";
+//     });
     
-}
+// }
 // Debug
 const debugObject = {}
 
@@ -655,15 +655,15 @@ debugObject.envMapIntensity = 5
 // camera
 const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.height, 0.1, 100)
 
-if (isMobile) {
-    // camera.position.x = 1.2
-    // camera.position.y = 1.2
-    // camera.position.z = - 3
-} else {
-    camera.position.x = 0
-    camera.position.y = 0
-    camera.position.z = - 5
-}
+// if (isMobile) {
+//     camera.position.x = 1.2
+//     camera.position.y = 1.2
+//     camera.position.z = - 3
+// } else {
+//     camera.position.x = 0
+//     camera.position.y = 0
+//     camera.position.z = - 5
+// }
 
 scene.add(camera)
 
@@ -737,12 +737,12 @@ for (let i = 0; i < 10; i++) {
     const plane = new THREE.Mesh(planeGeometry, planesMaterial[i])
 
     
-    if (isMobile) {
-        // plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
-        // plane.position.y = i - 10
-    } else {
-        plane.position.y = i - 14.2
-    }
+    // if (isMobile) {
+    //     plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
+    //     plane.position.y = i - 10
+    // } else {
+    //     plane.position.y = i - 14.2
+    // }
 
     
     plane.position.x = - Math.cos(i) * Math.PI
@@ -886,22 +886,22 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
     let deltaY;
 
     // 檢查是否為手機裝置
-    const isMobile = window.innerWidth <= 768;
+    // const isMobile = window.innerWidth <= 768;
 
-    if (touchEvent && isMobile) {
-        // 如果是手機並且是觸控事件，直接使用傳入的值
-        // deltaY = value;
-    } else if (!isMobile) {
-        // 非手機裝置處理滑鼠滾輪和鍵盤事件
-        const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
-        const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
+    // if (touchEvent && isMobile) {
+    //     // 如果是手機並且是觸控事件，直接使用傳入的值
+    //     deltaY = value;
+    // } else if (!isMobile) {
+    //     // 非手機裝置處理滑鼠滾輪和鍵盤事件
+    //     const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
+    //     const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
 
-        if (e.type === "wheel") {
-            deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse; // 滑鼠滾輪事件
-        } else {
-            deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard; // 鍵盤事件
-        }
-    }
+    //     if (e.type === "wheel") {
+    //         deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse; // 滑鼠滾輪事件
+    //     } else {
+    //         deltaY = e.deltaY > 0 ? scrollStepKeyboard : -scrollStepKeyboard; // 鍵盤事件
+    //     }
+    // }
 
     // 確認是否在正確狀態下滾動
     if (videoLook === false && isLoading && typeof deltaY !== 'undefined') {
@@ -1076,40 +1076,40 @@ async function addCards(eventName) {
     const style = document.createElement('style');
     style.id = 'dynamic-style';
 
-    if (isMobile) {
-        // style.innerHTML = `
-        //     .player {
-        //         overflow-y: scroll !important;
-        //         display: flex !important;
-        //         flex-direction: column !important;
-        //         align-items: center !important;
-        //     }
-        //     .player-source {
-        //         position: relative !important;
-        //         top: 80px !important;
-        //         left: auto !important;
-        //         right: auto !important;
-        //         transform: none !important;
-        //         min-height: 260px !important;
-        //     }
-        // `;
-    } else {
-        style.innerHTML = `
-            .player {
-                overflow-y: scroll !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-            }
-            .player-source {
-                position: relative !important;
-                top: 80px !important;
-                left: auto !important;
-                right: auto !important;
-                transform: none !important;
-            }
-        `;
-    }
+    // if (isMobile) {
+    //     style.innerHTML = `
+    //         .player {
+    //             overflow-y: scroll !important;
+    //             display: flex !important;
+    //             flex-direction: column !important;
+    //             align-items: center !important;
+    //         }
+    //         .player-source {
+    //             position: relative !important;
+    //             top: 80px !important;
+    //             left: auto !important;
+    //             right: auto !important;
+    //             transform: none !important;
+    //             min-height: 260px !important;
+    //         }
+    //     `;
+    // } else {
+    //     style.innerHTML = `
+    //         .player {
+    //             overflow-y: scroll !important;
+    //             display: flex !important;
+    //             flex-direction: column !important;
+    //             align-items: center !important;
+    //         }
+    //         .player-source {
+    //             position: relative !important;
+    //             top: 80px !important;
+    //             left: auto !important;
+    //             right: auto !important;
+    //             transform: none !important;
+    //         }
+    //     `;
+    // }
     document.head.appendChild(style);
     console.log(`尾- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 }

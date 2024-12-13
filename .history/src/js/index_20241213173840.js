@@ -45,66 +45,7 @@ let lastPosition = {
 
 const localLinks = [].slice.call(document.querySelectorAll('a')).filter((a) => /^#.+/.test(a.getAttribute('href')));
 
-// 檢測是否為手機
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-// 如果是手機，禁用 WebGL，啟用 DOM 渲染
-if (isMobile) {
-    console.log("Mobile device detected. Switching to DOM rendering.");
-    // 移除 WebGL canvas
-    const canvas = document.querySelector(".main-webgl");
-    if (canvas) {
-        canvas.style.display = "none";
-    }
-
-    // 初始化 DOM 渲染
-    initializeDOMRendering();
-} else {
-    console.log("Desktop device detected. Using WebGL rendering.");
-    // 初始化 WebGL 渲染
-    initWebGLRendering();
-}
-
-// DOM 渲染初始化函數
-function initializeDOMRendering() {
-    const container = document.querySelector(".player"); // 假設主容器是 .player
-    container.innerHTML = ""; // 清空內容
-
-    // 動態生成 DOM 元素，模擬 WebGL 的效果
-    detailsImage.forEach((imageData, index) => {
-        const item = document.createElement("div");
-        item.className = "image-item";
-        item.style.margin = "20px";
-        item.style.textAlign = "center";
-
-        // 添加圖片
-        const img = document.createElement("img");
-        img.src = imageData.url;
-        img.alt = imageData.name;
-        img.style.width = "100%";
-        img.style.maxWidth = "300px";
-        img.style.border = "1px solid #ccc";
-        img.style.borderRadius = "10px";
-        img.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
-
-        // 添加標題
-        const title = document.createElement("h3");
-        title.textContent = imageData.name;
-        title.style.fontSize = "1.2em";
-        title.style.color = "#333";
-
-        item.appendChild(img);
-        item.appendChild(title);
-        container.appendChild(item);
-    });
-}
-
-// WebGL 渲染初始化函數（保留桌面版本使用）
-function initWebGLRendering() {
-    // 此處保留你原本的 WebGL 初始化代碼
-    console.log("Initializing WebGL rendering...");
-    // WebGL 初始化代碼...
-}
 
 localLinks.forEach((link) => {
   link.addEventListener('click', function(e) {
@@ -655,15 +596,15 @@ debugObject.envMapIntensity = 5
 // camera
 const camera = new THREE.PerspectiveCamera(83, sizesCanvas.width / sizesCanvas.height, 0.1, 100)
 
-if (isMobile) {
-    // camera.position.x = 1.2
-    // camera.position.y = 1.2
-    // camera.position.z = - 3
-} else {
-    camera.position.x = 0
-    camera.position.y = 0
-    camera.position.z = - 5
-}
+// if (isMobile) {
+//     camera.position.x = 1.2
+//     camera.position.y = 1.2
+//     camera.position.z = - 3
+// } else {
+//     camera.position.x = 0
+//     camera.position.y = 0
+//     camera.position.z = - 5
+// }
 
 scene.add(camera)
 
@@ -738,8 +679,8 @@ for (let i = 0; i < 10; i++) {
 
     
     if (isMobile) {
-        // plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
-        // plane.position.y = i - 10
+        plane.scale.set(1.5, 1.5, 1.5); // Increase to make the image larger, decrease for smaller
+        plane.position.y = i - 10
     } else {
         plane.position.y = i - 14.2
     }
@@ -890,7 +831,7 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
 
     if (touchEvent && isMobile) {
         // 如果是手機並且是觸控事件，直接使用傳入的值
-        // deltaY = value;
+        deltaY = value;
     } else if (!isMobile) {
         // 非手機裝置處理滑鼠滾輪和鍵盤事件
         const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
@@ -982,9 +923,9 @@ async function addCards(eventName) {
     console.log(`頭- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     // 如果是手機，移除滑動區域
-    // if (isMobile) {
-    //     await removeSwipeSections();
-    // }
+    if (isMobile) {
+        await removeSwipeSections();
+    }
 
     
 
@@ -1077,22 +1018,22 @@ async function addCards(eventName) {
     style.id = 'dynamic-style';
 
     if (isMobile) {
-        // style.innerHTML = `
-        //     .player {
-        //         overflow-y: scroll !important;
-        //         display: flex !important;
-        //         flex-direction: column !important;
-        //         align-items: center !important;
-        //     }
-        //     .player-source {
-        //         position: relative !important;
-        //         top: 80px !important;
-        //         left: auto !important;
-        //         right: auto !important;
-        //         transform: none !important;
-        //         min-height: 260px !important;
-        //     }
-        // `;
+        style.innerHTML = `
+            .player {
+                overflow-y: scroll !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            .player-source {
+                position: relative !important;
+                top: 80px !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                min-height: 260px !important;
+            }
+        `;
     } else {
         style.innerHTML = `
             .player {
@@ -1269,9 +1210,9 @@ playerClose.addEventListener("click", () => {
 
     setTimeout(() => {
         videoLook = false
-        // if(isMobile) {
-        // addSwipeSections();  // Re-add swipe sections after closing the player
-        // }
+        if(isMobile) {
+        addSwipeSections();  // Re-add swipe sections after closing the player
+        }
     }, 300);
 
     setTimeout(() => {

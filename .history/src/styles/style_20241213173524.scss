@@ -767,3 +767,8 @@ p a {
   }
 }
 
+.highlight {
+  border: 2px solid #00ff00; /* 綠色邊框表示可點擊 */
+  background-color: rgba(0, 255, 0, 0.2); /* 半透明背景 */
+  transition: all 0.3s ease;
+}
