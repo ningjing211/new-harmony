@@ -360,12 +360,11 @@ const loadingManager = new THREE.LoadingManager(
             startedBtn.addEventListener("click", () => continueAnimation())
         }, 50)
     },
-    // Loaded
-    () => {
+    (itemUrl, itemsLoaded, itemsTotal) => {
+        const progressRatio = itemsLoaded / itemsTotal
         simulatedProgress = 100; // 加載完成後，直接將進度設置為 100
-        counterLoading.innerHTML = `100%`;
-        header.style.width = `226px`;
-        // 可以在這裡觸發其他動畫或邏輯
+        counterLoading.innerHTML = `${(progressRatio * 100).toFixed(0)}%`
+        header.style.width = `${(progressRatio * 226).toFixed(0)}px`
     },
     (itemUrl, itemsLoaded, itemsTotal) => {
         // 真實進度條邏輯，將模擬與真實結合
