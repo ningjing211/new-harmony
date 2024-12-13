@@ -292,7 +292,7 @@ let simulatedProgress = 0;
 // 模擬進度條的函數
 const simulateLoading = () => {
     if (simulatedProgress < 100) {
-        simulatedProgress += 0.8; // 調整這裡的值來控制速度（例如 0.1 是更慢的速度）
+        simulatedProgress += 0.7; // 調整這裡的值來控制速度（例如 0.1 是更慢的速度）
         counterLoading.innerHTML = `${simulatedProgress.toFixed(0)}%`;
         header.style.width = `${(simulatedProgress * 226 / 100).toFixed(0)}px`;
 
