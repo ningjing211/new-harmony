@@ -948,7 +948,7 @@ async function addCards(eventName) {
                     <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
                 </div>
                 <div class="footer-item">
-                    禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+                    禾沐行銷 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
                 </div>
             </footer>
         `;
@@ -1357,7 +1357,7 @@ function renderCards(eventData) {
                 <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
             </div>
             <div class="footer-item">
-                禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+                禾沐行銷 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
             </div>
         </footer>
     `;

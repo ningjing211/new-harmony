@@ -17,6 +17,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+app.get('/mobile-page.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/mobile-page.html'));
+});
+
 // 提供 JSON 檔案資料的 API
 app.get('/api/images-order', (req, res) => {
   const jsonFilePath = path.join(__dirname, '/imagesOrder.json');

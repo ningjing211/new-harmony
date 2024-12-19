@@ -100,7 +100,7 @@ async function loadDetailsImage() {
 
         let data = await getImagesOrderReverse();
         
-        console.log('印出拿到的data, 做比較', data)
+        // console.log('印出拿到的data, 做比較', data)
   
         // console.log("Fetched JSON data for detailsImage:", data);
 
@@ -353,7 +353,7 @@ const simulateLoading = () => {
     if (simulatedProgress < 100) {
         simulatedProgress += 0.8; // 調整這裡的值來控制速度（例如 0.1 是更慢的速度）
         counterLoading.innerHTML = `${simulatedProgress.toFixed(0)}%`;
-        header.style.width = `${(simulatedProgress * 226 / 100).toFixed(0)}px`;
+        header.style.width = `${(simulatedProgress * 6636 / 100).toFixed(0)}px`;
 
         // 繼續調用模擬進度條
         setTimeout(simulateLoading, 50); // 調整這裡的時間間隔（例如 100 毫秒是更慢的速度）
@@ -367,16 +367,22 @@ const loadingManager = new THREE.LoadingManager(
     // Loaded
     () => {
         window.setTimeout(() => {
-            gsap.to(header, 0.5, {
-                top: 0,
-                left: 40,
-                transform: "translate(0, 0)",
-                ease: Power1.easeIn
-            })
+            gsap.fromTo(
+                header,
+                { opacity: 0 }, // 初始位置與透明度
+                {
+                    top: 18,
+                    left: 18,
+                    transform: "translate(0, 0)",
+                    opacity: 1, // 最終完全可見
+                    duration: 0.5,
+                    ease: Power1.easeIn
+                }
+            );
 
             gsap.to(h1, 0.5, {
                 fontSize: 22,
-                top: 10,
+                top: 20,
                 left: 10,
                 transform: "translate(0, 0)",
                 width: 150,
@@ -423,21 +429,22 @@ const loadingManager = new THREE.LoadingManager(
     () => {
         simulatedProgress = 100; // 加載完成後，直接將進度設置為 100
         counterLoading.innerHTML = `100%`;
-        header.style.width = `226px`;
+        header.style.width = `6636px`;
         // 可以在這裡觸發其他動畫或邏輯
     },
     (itemUrl, itemsLoaded, itemsTotal) => {
         // 真實進度條邏輯，將模擬與真實結合
         const progressRatio = Math.max(simulatedProgress, itemsLoaded / itemsTotal * 100);
         counterLoading.innerHTML = `${progressRatio.toFixed(0)}%`;
-        header.style.width = `${(progressRatio * 226 / 100).toFixed(0)}px`;
+        header.style.width = `${(progressRatio * 6636 / 100).toFixed(0)}px`;
     }
 )
 
 // Continue animation loading
 const continueAnimation = () => {
-    music.play()
-    respiration.play()
+    !isMobile ? (music.play(), console.log('音樂播放中: 非手機設備')) : console.log('檢測到手機設備，音樂不播放');
+    !isMobile ? (respiration.play(), console.log('音樂播放中: 非手機設備')) : console.log('檢測到手機設備，音樂不播放');
+
 
     gsap.to(started, 0.5, {
         opacity: 0
@@ -466,8 +473,9 @@ const continueAnimation = () => {
     });
 
     const mainWebGL = document.querySelector('.main-webgl');
-    mainWebGL.classList.add("openList"); // 淡出 main-webgl
-
+    if (mainWebGL) {
+        mainWebGL.classList.add("openList"); // 淡出 main-webgl
+    }
 
 
     }, 250);
@@ -807,19 +815,26 @@ for (let i = 0; i < 10; i++) {
 
 let currentState = "initial"; // 定義初始狀態
 
+// 手動模擬一個滾動事件，強制畫面更新到 scrollI = 48
+const initializeScrollPosition = () => {
+    const mockEvent = { deltaY: 0 }; // 假的滾動事件，不改變 deltaY
+    animationScroll(mockEvent, false); // 呼叫 animationScroll 更新畫面
+    console.log("Initialized scroll position to scrollI =", scrollI);
+};
+
 window.addEventListener("click", (event) => {
-    console.log(`Current State: ${currentState}`); // 印出當前狀態
+    // console.log(`Current State: ${currentState}`); // 印出當前狀態
 
     if (currentState === "initial") {
-        console.log("State: Initial - Executing handlePlane()");
+        // console.log("State: Initial - Executing handlePlane()");
         handlePlane();
         currentState = "groupSelection"; // 切換到選擇 group 狀態
     } else if (currentState === "groupSelection") {
         handlePlane();
-        console.log("State: Group Selection - Checking for clicked group");
+        // console.log("State: Group Selection - Checking for clicked group");
         // 根據 flag 判斷是否需要跳過以下邏輯
         if (intersectFlag) {
-            console.log('Intersect flag is true, skipping further execution.');
+            // console.log('Intersect flag is true, skipping further execution.');
             return; // 不執行後續邏輯
         }
         // 計算滑鼠在 WebGL 畫布中的位置
@@ -834,13 +849,13 @@ window.addEventListener("click", (event) => {
 
         if (intersects.length > 0) {
             const clickedObject = intersects[0].object;
-            console.log('show clickedObject', clickedObject);
-            console.log('判斷是否執行clickedObject.userData && clickedObject.userData.name', clickedObject.userData && clickedObject.userData.name)
+            // console.log('show clickedObject', clickedObject);
+            // console.log('判斷是否執行clickedObject.userData && clickedObject.userData.name', clickedObject.userData && clickedObject.userData.name)
             if (clickedObject.userData && clickedObject.userData.name) {
                 
                 const clickedValue = clickedObject.userData.name;
-                console.log('clickedValueTest', clickedValue);
-                console.log(`Clicked on group: ${clickedValue}`);
+                // console.log('clickedValueTest', clickedValue);
+                // console.log(`Clicked on group: ${clickedValue}`);
                 addCards(clickedValue);
                 
             }
@@ -857,11 +872,11 @@ window.addEventListener("click", (event) => {
         try {
    
             const imagesData = await getImagesOrder();
-            console.log('執行過了')
+            // console.log('執行過了')
     
             // 找到對應的活動資料
             const eventData = imagesData.find((item) => item.folderName === eventName);
-            console.log('Fetched Event Data:', eventData);
+            // console.log('Fetched Event Data:', eventData);
     
             if (!eventData) throw new Error(`Event "${eventName}" not found in JSON data.`);
     
@@ -892,7 +907,7 @@ window.addEventListener("click", (event) => {
 
         // 再生成 HTML
         newWrap.innerHTML = reversedDetailsImage.map((detail, index) => `
-            <a class="detail-box" 
+            <a class="detail-box cards" 
             href="#" 
             data-name="${detail.name}" 
             data-index="${index}">
@@ -900,6 +915,14 @@ window.addEventListener("click", (event) => {
                 <img src="${reversedImagesForDiv[index]}" alt="${detail.name}" class="detail-image" />
             </a>
         `).join("");
+
+        // 創建外層 div
+        const outerWrap = document.createElement("div");
+        outerWrap.className = "outer-wrap"; // 添加一個 class 方便日後樣式設計
+
+        // 將 newWrap 放入外層 div
+        outerWrap.appendChild(newWrap);
+
         const footer = document.createElement("div");
         footer.innerHTML = `
             <footer style="background-color: #b7b7b7f0;">
@@ -909,11 +932,11 @@ window.addEventListener("click", (event) => {
                         Email: barry.aurora.harmony@gmail.com
                     </a>
                 </div>
-                <div>禾沐股份有限公司 &copy; 2024 The Harmony</div>
+                <div>禾沐行銷 &copy; 2024 The Harmony</div>
             </footer>
         `;
 
-        main.appendChild(newWrap);
+        main.appendChild(outerWrap);
         main.appendChild(footer);
 
         // 主邏輯：動態設置 href
@@ -922,21 +945,47 @@ window.addEventListener("click", (event) => {
 
             link.addEventListener("click", async (e) => {
                 e.preventDefault(); // 阻止超連結的預設跳轉
+            // 獲取 eventData
+            const eventData = await fetchImagesOrder(eventName);
+            if (eventData) {
+                // 將 eventData 存入 LocalStorage
+                localStorage.setItem("eventData", JSON.stringify(eventData));
+                localStorage.setItem("eventName", eventName);
 
-                const eventData = await fetchImagesOrder(eventName); // 先獲取 eventData
-                if (eventData) {
-                    // 動態生成 Blob URL
-                    const mobilePageURL = createMobilePageURL(eventName, eventData);
-
-                    // 將生成的 URL 設置為 href 並跳轉
-                    window.location.href = mobilePageURL;
-                }
+                // 跳轉到 template.html
+                // window.location.href = "public/mobile-page.html"; //測試用
+                window.location.href = "mobile-page.html"; //上傳server //這邊後端配合一個router ok了
+            
+            }
             });
         });
         
         // 動態添加 RWD CSS
         const style = document.createElement("style");
         style.innerHTML = `
+            /* 旋轉視覺 */
+            .outer-wrap {
+                flex-direction: column;
+                align-items: center;
+                perspective: 1000px;
+                display: flex;
+            }
+            .cards:nth-child(odd), .cards:nth-child(even) {
+                transition: 0.4s;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                transform: rotate(0);
+            }
+            .cards:nth-child(odd) {
+                transform: rotateY(22deg) rotateX(-47deg) rotateZ(20deg) translateY(-23px) translateX(2px);
+                height: 22rem;
+                max-width: 28rem;
+            }
+            .cards:nth-child(even) {
+                transform: rotateY(-15deg) rotateX(47deg) rotateZ(20deg) translateY(23px) translateX(-2px);
+                height: 25rem;
+                width: 40rem;
+            }
+
             /* 新增響應式彈性布局 */
             .new-mobile-wrap {
                 display: flex;
@@ -945,32 +994,25 @@ window.addEventListener("click", (event) => {
                 gap: 15px; /* 子元素間隔 */
                 padding: 10px;
                 background-color: #54794f;
-                margin-top: 140px;
+                margin-top: 177px;
             }
 
             .detail-box {
                 flex: 1 1 calc(50% - 20px); /* 每個 box 初始佔 50%，隨寬度自動調整 */
                 max-width: calc(50% - 20px);
-                border: 1px solid #ddd;
-                padding: 15px;
-                background-color: #fff;
-                border-radius: 8px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
                 margin-bottom: 36px;
             }
 
-            .detail-box:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-            }
-
             .detail-box h2 {
-                font-size: 16px;
+                font-size: 22px;
                 margin: 0 0 8px;
-                color: #333;
+                color: white;
                 text-align: center;
                 padding: 12px;
+                align-self: center;
+                width: 94%;
             }
 
             .detail-box a {
@@ -986,8 +1028,8 @@ window.addEventListener("click", (event) => {
             /* 響應式設計 */
             @media (max-width: 768px) {
                 .detail-box {
-                    flex: 1 1 calc(80% - 20px); /* 小螢幕時，每個 box 佔 100% 寬度 */
-                    max-width: calc(80% - 20px);
+                    flex: 1 1 calc(70% - 20px); /* 小螢幕時，每個 box 佔 100% 寬度 */
+                    max-width: calc(70% - 20px);
                 }
             }
 
@@ -1029,11 +1071,11 @@ function generateImageCards(eventData) {
 
 // Function: 遍歷 JSON 數據並生成影片區塊
 function generateVideoCards(eventData) {
-    console.log(eventData, 'video');
+    // console.log(eventData, 'video');
     if (!eventData.video || !eventData.video.url) return ""; // 檢查 video.url 是否存在
 
     const videoId = getVideoId(eventData.video.url);
-    console.log('videoId', videoId);
+    // console.log('videoId', videoId);
     return `
         <div class="video-container">
             <iframe
@@ -1060,8 +1102,19 @@ function generateMobilePage(eventName, eventData) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${eventName}</title>
+        <meta property="og:image:secure_url" content="https://www.theharmony.fun/thumbnails/icon-1024.jpg">
+        <meta name="msapplication-TileImage" content="https://www.theharmony.fun/thumbnails/icon-180.webp">
+        <title>The Harmony 禾沐行銷 - ${eventName}</title>
         <link rel="stylesheet" href="styles/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
+        <link rel="icon" href="https://www.theharmony.fun//thumbnails/icon-32.webp" sizes="32x32">
+        <link rel="icon" href="https://www.theharmony.fun/thumbnails/icon-180.webp" sizes="192x192">
+        <link rel="apple-touch-icon" href="https://www.theharmony.fun//thumbnails/icon-180.webp">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
         <style>
             html { background: #000000; }
             body { background: #000000; font-family: 'Noto Sans TC'; sans-serif; margin: 0; padding: 0; }
@@ -1075,7 +1128,7 @@ function generateMobilePage(eventName, eventData) {
                 top: 28px;
                 right: 28px;
             }
-            .cover .heading { font-size: 28px; font-weight: bold; margin-bottom: 20px; }
+            .cover .heading { font-size: 28px; font-weight: bold; margin: 20px 0 20px 0; }
             .heading { color: #f0f0f0; padding: 30px 10px 20px 10px; }
             .logo-image img { width: 100%; max-width: 400px; margin: 10px auto; display: block; }
             .image-description { 
@@ -1117,7 +1170,7 @@ function generateMobilePage(eventName, eventData) {
                     <div>
                         <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com">Email: barry.aurora.harmony@gmail.com</a>
                     </div>
-                    <div>禾沐股份有限公司 &copy; 2024 The Harmony</div>
+                    <div>禾沐行銷 &copy; 2024 The Harmony</div>
                 </footer>
             </div>
         </main>
@@ -1196,7 +1249,7 @@ window.addEventListener("keydown", function(event) {
 
 const animationScroll = (e, touchEvent, value, downOrUp) => {
     let deltaY;
-
+    
     // 檢查是否為手機裝置
     const isMobile = window.innerWidth <= 768;
 
@@ -1205,7 +1258,7 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
         // deltaY = value;
     } else if (!isMobile) {
         // 非手機裝置處理滑鼠滾輪和鍵盤事件
-        const scrollStepKeyboard = 20;  // 鍵盤觸發時的滾動幅度
+        const scrollStepKeyboard = 10;  // 鍵盤觸發時的滾動幅度
         const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
 
         if (e.type === "wheel") {
@@ -1283,15 +1336,15 @@ async function preloadImages(imagePaths) {
 let executionCount = 0; // 計數器變數，初始化為 0
 
 async function addCards(eventName) {
-    console.log('印出event name', eventName);
+    // console.log('印出event name', eventName);
     const main = document.querySelector(".player")
-    console.log('進入addCards, 印出player:main---', main);
+    // console.log('進入addCards, 印出player:main---', main);
     currentState = "cardsDisplayed"; // 切換到顯示 cards 狀態
-    console.log('Top - in the addCards, currentStat:', currentState)
+    // console.log('Top - in the addCards, currentStat:', currentState)
     executionCount++; // 每次執行時遞增
     const now = new Date(); // 獲取當前時間
     const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; // 格式化時間
-    console.log(`頭- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+    // console.log(`頭- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     // 如果是手機，移除滑動區域
     if (isMobile) {
@@ -1301,7 +1354,7 @@ async function addCards(eventName) {
     
 
     // 檢查是否已有 .page-event 區域，如果有則先清除其內容
-    console.log(`中1- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+    // console.log(`中1- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     const existingPageEvent = main.querySelector(".page-event");
     if (existingPageEvent) {
@@ -1314,7 +1367,7 @@ async function addCards(eventName) {
         existingFooter.remove();
     }
 
-    console.log(`中2- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+    // console.log(`中2- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
     try {
         // 從後端獲取 JSON 資料
@@ -1323,7 +1376,7 @@ async function addCards(eventName) {
 
         // 找到對應的活動資料
         const eventData = imagesData.find((item) => item.folderName === eventName);
-        console.log('Fetched Event Data:', eventData);
+        // console.log('Fetched Event Data:', eventData);
         if (!eventData) {
             console.error(`Event "${eventName}" not found in JSON data.`);
             return;
@@ -1332,7 +1385,7 @@ async function addCards(eventName) {
         // 預載圖片
         const imagePaths = eventData.additionalImages.map((img) => img.path);
         await preloadImages(imagePaths);
-        console.log(`中3- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+        // console.log(`中3- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 動態生成 HTML
         let cardsHTML = `
@@ -1340,7 +1393,7 @@ async function addCards(eventName) {
                 <div class="cover">
                     <div class="heading">${eventName}</div>
         `;
-        console.log(`中4- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+        // console.log(`中4- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 遍歷 JSON 數據，生成對應的圖片和描述
         eventData.additionalImages.forEach((img, index) => {
@@ -1354,7 +1407,7 @@ async function addCards(eventName) {
                 </div>
             `;
         });
-        console.log(`中5- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+        // console.log(`中5- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 
         // 添加 Footer
         cardsHTML += `
@@ -1364,17 +1417,17 @@ async function addCards(eventName) {
                     <a target="_blank" href="mailto:barry.aurora.harmony@gmail.com/"> Email: barry.aurora.harmony@gmail.com </a>
                 </div>
                 <div class="footer-item">
-                    禾沐股份有限公司 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
+                    禾沐行銷 Copyright © 2024 The Harmony, All rights reserved. Powered by Conflux.
                 </div>
             </footer>
         `;
 
         cardsHTML += `</div>`;
-        console.log('Generated cardsHTML:', cardsHTML);
-        console.log('Updated DOM:-11111', main.innerHTML);
+        // console.log('Generated cardsHTML:', cardsHTML);
+        // console.log('Updated DOM:-11111', main.innerHTML);
 
         main.insertAdjacentHTML('beforeend', cardsHTML);
-        console.log('Updated DOM:-22222', main.innerHTML);
+        // console.log('Updated DOM:-22222', main.innerHTML);
 
         await initializeElements(eventName); // 確保初始化完成
         
@@ -1421,7 +1474,7 @@ async function addCards(eventName) {
         `;
     }
     document.head.appendChild(style);
-    console.log(`尾- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
+    // console.log(`尾- addCards 被執行: 第 ${executionCount} 次，時間: ${timestamp}`);
 }
 
 function removeCards() {
@@ -1482,25 +1535,53 @@ function removeCards() {
 let intersectFlag = false; // 全局變數，作為旗標控制邏輯
 
 
+let hasSimulatedKeys = false; // 防止重複觸發
+
+const simulateArrowRightPress = (times) => {
+    for (let i = 0; i < times; i++) {
+        setTimeout(() => {
+            const event = new KeyboardEvent("keydown", { key: "ArrowRight", code: "ArrowRight" });
+            window.dispatchEvent(event);
+        }, i * 100); // 每 100 毫秒觸發一次
+    }
+};
+
+// 監控 currentState 是否變化為 groupSelection
+const monitorStateChange = () => {
+    const checkStateInterval = setInterval(() => {
+        if (currentState === "groupSelection" && !hasSimulatedKeys) {
+            simulateArrowRightPress(7); // 模擬按鍵 5 次
+            hasSimulatedKeys = true;    // 防止重複觸發
+            clearInterval(checkStateInterval); // 停止監控
+        }
+    }, 200); // 每 200 毫秒檢查一次狀態
+};
+
+// 啟動監控邏輯
+if(!isMobile) {
+    monitorStateChange();
+}
+
 const handlePlane = () => {
-    console.log('111', currentIntersect)
+    // console.log('111', currentIntersect)
     // 如果 currentIntersect 為 null，直接退出函式
     if (!currentIntersect) {
-        console.log('currentIntersect is null, exiting handlePlane.');
+        // console.log('currentIntersect is null, exiting handlePlane.');
         intersectFlag = true; // 設置旗標為 true，表示不需要繼續執行
         return; // 終止函式執行
     }
 
     intersectFlag = false; // 設置旗標為 true，表示不需要繼續執行
 
-    console.log('222', videoLook)
-    console.log('333', isLoading)
+    // console.log('222', videoLook)
+    // console.log('333', isLoading)
     if (currentIntersect && videoLook === false && isLoading) {
         for (let i = 0; i < groupPlane.children.length; i++) {
             if (groupPlane.children[i] === currentIntersect.object) {
                 planeClickedIndex = i
-                music.pause()
-                respiration.pause()
+                !isMobile ? (music.pause(), console.log('音樂暫停: 非手機設備')) : console.log('檢測到手機設備，音樂保持狀態');
+                !isMobile ? (respiration.pause(), console.log('音樂暫停: 非手機設備')) : console.log('檢測到手機設備，音樂保持狀態');
+
 
                 lastPosition = {
                     px: groupPlane.children[i].position.x,
@@ -1524,13 +1605,14 @@ const handlePlane = () => {
                     y: 0,
                     ease: Power1.easeIn
                 })
+                
 
                 const videoId = getVideoId(detailsImage[i].url);
                 playerSource.src = "https://www.youtube.com/embed/" + videoId
-                console.log('有沒有執行到setTimeOut之前，opacity and visible');
+                // console.log('有沒有執行到setTimeOut之前，opacity and visible');
                 setTimeout(() => {
                     player.style.visibility = "visible"
-
+                    player.style.background = "black"
                     gsap.to(player, 0.5, {
                         opacity: 1,
                         ease: Power1.easeIn
@@ -1549,8 +1631,9 @@ playerClose.addEventListener("click", () => {
     console.log('要關掉addCards, 改變currentStata:', currentState);
     event.stopPropagation();  // 防止點擊事件冒泡到 WebGL 場景
     playerSource.src = ""
-    music.play()
-    respiration.play()
+    !isMobile ? (music.play(), console.log('音樂播放中: 非手機設備')) : console.log('檢測到手機設備，音樂不播放');
+    !isMobile ? (respiration.play(), console.log('音樂播放中: 非手機設備')) : console.log('檢測到手機設備，音樂不播放');
+
 
     gsap.to(player, 0.5, {
         opacity: 0,
@@ -1637,8 +1720,8 @@ const init = () => {
         if (intersects.length === 1) {
             if (currentIntersect === null) {
                 currentIntersect = intersects[0]
-                console.log('groupPlane.children', groupPlane.children, '這裡面有物件嗎')
-                console.log('這裡有被初始化嗎？------------------------')
+                // console.log('groupPlane.children', groupPlane.children, '這裡面有物件嗎')
+                // console.log('這裡有被初始化嗎？------------------------')
             } else {
                 for (let i = 0; i < groupPlane.children.length; i++) {
                     if (groupPlane.children[i] === currentIntersect.object) {
