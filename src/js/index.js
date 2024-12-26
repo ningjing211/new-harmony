@@ -1259,7 +1259,7 @@ const animationScroll = (e, touchEvent, value, downOrUp) => {
     } else if (!isMobile) {
         // 非手機裝置處理滑鼠滾輪和鍵盤事件
         const scrollStepKeyboard = 10;  // 鍵盤觸發時的滾動幅度
-        const scrollStepMouse = 3;      // 滑鼠滾輪觸發時的滾動幅度
+        const scrollStepMouse = 2;      // 滑鼠滾輪觸發時的滾動幅度
 
         if (e.type === "wheel") {
             deltaY = e.deltaY > 0 ? scrollStepMouse : -scrollStepMouse; // 滑鼠滾輪事件
